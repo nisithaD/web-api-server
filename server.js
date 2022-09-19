@@ -1,19 +1,32 @@
+require("dotenv").config({ path: ".env" });
 const express = require("express");
+const mongoose = require("mongoose");
+var restaurantRoute = require('./src/routes/restaurant');
+
+/** App Configurations */
 const app = express();
 const cors = require("cors");
-require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
+
+
+/** Middleware */
 app.use(cors());
 app.use(express.json());
-app.use(require("./routes/record"));
-// get driver connection
-const dbo = require("./db/conn");
- 
-app.listen(port, () => {
-  // perform a database connection when server starts
-  dbo.connectToServer(function (err) {
-    if (err) console.error(err);
- 
-  });
-  console.log(`Server is running on port: ${port}`);
+
+/** Routes */
+app.use('/restaurant', restaurantRoute);
+
+app.listen(port, async () => {
+  try {
+    console.log('Initialize connections....')
+    // Load ENV variables
+    const ENV = process.env;
+    await mongoose.connect(
+      "mongodb://" + ENV.DB_USER + ":" + ENV.DB_PASSWORD + "@" + ENV.IP + "/" + ENV.DB
+    );
+    console.log(`Server is listning on ${port}`)
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 });
