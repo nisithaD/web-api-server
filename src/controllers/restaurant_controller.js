@@ -18,11 +18,7 @@ exports.create_restaurant=async(req,res)=>{
 
     //TODO Check if logged in user is admin
 
-    //call to get user route
-    const user=router.get('/api/user',{
-    }).then(res=>res.json());
-    
-    console.log(user); //TODO need to test this
+    //TODO get auth user
 
     if(user.is_admin=false){
         return res.status(401).json({message:"You are not authorized to create a restaurant."})
@@ -49,8 +45,7 @@ exports.create_restaurant=async(req,res)=>{
 // PUT /restaurant/:id
 exports.update_restaurant=async(req,res)=>{
     
-    const user=router.get('/api/user',{
-    }).then(res=>res.json());
+   //TODO get auth user
 
     if(user.is_admin=false){
         return res.status(401).json({message:"You are not authorized to update a restaurant."})
@@ -80,9 +75,8 @@ exports.update_restaurant=async(req,res)=>{
 
 // DELETE /restaurant/:id
 exports.delete_restaurant=async(req,res)=>{
-   
-    const user=router.get('https://localhost:3000/api/user',{
-    }).then(res=>res.json());
+    
+    //TODO get auth user
 
     if(user.is_admin=false){
         return res.status(401).json({message:"You are not authorized to delete a restaurant."})
