@@ -1,7 +1,8 @@
 require("dotenv").config({ path: ".env" });
 const express = require("express");
 const mongoose = require("mongoose");
-var restaurantRoute = require('./src/routes/restaurant');
+const restaurantRoute = require('./src/routes/restaurant');
+const userRoute = require('./src/routes/user.js');
 
 /** App Configurations */
 const app = express();
@@ -14,7 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 /** Routes */
-app.use('/restaurant', restaurantRoute);
+app.use('/api/restaurant', restaurantRoute);
+app.use('/api', userRoute);
 
 app.listen(port, async () => {
   try {
