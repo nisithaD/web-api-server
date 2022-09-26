@@ -50,28 +50,28 @@ const login=async (req,res)=>{
         if(!isValidPassword){
             return res.status(422).json({message:"Invalid credentials, please try again."})
         } else{
-            const token=jwt.sign({userId:existingUser.id,email:existingUser.email},JWT_SECRET,{expiresIn:"30s"});
+            const token=jwt.sign({userId:existingUser.id,email:existingUser.email},JWT_SECRET,{expiresIn:"1h"});
             res.cookie(String(existingUser.id),token,{path:'/',expires:new Date(Date.now()+1000*30),httpOnly:true,sameSite:"lax"});
             return res.status(200).json({message:"Logged in!",user:existingUser,token:token});
         }
     }
 }
 
-const verify_token=(req,res,next)=>{
-    const cookie=req.headers.cookie;
-    const token=cookie.split("=")[1];
+// const verify_token=(req,res,next)=>{
+//     const cookie=req.headers.cookie;
+//     const token=cookie.split("=")[1];
 
-        if(token){
-            jwt.verify(String(token),JWT_SECRET,(err,user)=>{
-                if(err){
-                    return res.sendStatus(403);
-                }
-                req.user=user;
-                next();
-            })
-        }
+//         if(token){
+//             jwt.verify(String(token),JWT_SECRET,(err,user)=>{
+//                 if(err){
+//                     return res.sendStatus(403);
+//                 }
+//                 req.user=user;
+//                 next();
+//             })
+//         }
   
-}
+// }
 
 const get_user=async (req,res)=>{
     const user_id=req.user.userId;
@@ -92,5 +92,5 @@ const get_user=async (req,res)=>{
 
 exports.register=register;
 exports.login=login;
-exports.verify_token=verify_token;
+// exports.verify_token=verify_token;
 exports.get_user=get_user;

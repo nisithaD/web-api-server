@@ -2,8 +2,8 @@ require("dotenv").config({ path: ".env" });
 const express = require("express");
 const mongoose = require("mongoose");
 const restaurantRoute = require('./src/routes/restaurant');
-const userRoute = require('./src/routes/user.js');
-const favouriteRoute = require('./src/routes/favourites.js');
+const userRoute = require('./src/routes/user');
+const favouriteRoute = require('./src/routes/favourite');
 
 /** App Configurations */
 const app = express();
