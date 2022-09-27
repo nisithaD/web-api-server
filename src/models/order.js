@@ -28,5 +28,5 @@ const orderSchema=new Schema({
     }
 });
 
-const user=mongoose.model('User',userSchema);
-module.exports=user;
+const order=mongoose.model('Order',orderSchema);
+module.exports=order;
