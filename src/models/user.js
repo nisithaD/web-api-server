@@ -1,47 +1,51 @@
-const mongoose=require('mongoose');
-const Schema=mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema=new Schema({
-    name:{
-        type:String,
-        required:true
-    } ,
-    email:{
-        type:String,
-        required:true,
-        unique:true
+const FoodReferanceSchema = new Schema({
+    food: { type: mongoose.Schema.Types.ObjectId, require: true },
+    outlet: { type: mongoose.Schema.Types.ObjectId, require: true },
+    price: { type: Number, require: true },
+    qty: { type: Number, require: true }
+});
+
+
+const userSchema = new Schema({
+    googleId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    password:{
-        type:String,
-        required:true,
-        minlength:6
+    name: {
+        type: String,
+        required: true
     },
-    address:{
-        type:String,
-        required:true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    phone:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: false,
+        minlength: 6
     },
-    favourites:{
-        type:Array,
-        default:[]
+    address: {
+        type: String,
+        required: false
     },
-    wishlist:{
-        type:Array,
-        default:[]
+    phone: {
+        type: String,
+        required: false
     },
-    cart:{
-        type:Array,
-        default:[]
-    },
-    is_admin:{
-        type:Boolean,
-        default:false
+    favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
+    wishlist: [FoodReferanceSchema],
+    cart: [FoodReferanceSchema],
+    is_admin: {
+        type: Boolean,
+        default: false
     }
 
 });
 
-const user=mongoose.model('User',userSchema);
-module.exports=user;
+const user = mongoose.model('User', userSchema);
+module.exports = user;
