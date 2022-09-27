@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const restaurantRoute = require('./src/routes/restaurant');
 const userRoute = require('./src/routes/user');
 const favouriteRoute = require('./src/routes/favourite');
+const orderRoute = require('./src/routes/order');
 
 /** App Configurations */
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 /** Routes */
 app.use('/api/restaurant', restaurantRoute);
 app.use('/api/favourite', favouriteRoute);
+app.use('/api/order', orderRoute);
 app.use('/api', userRoute);
 
 app.listen(port, async () => {
