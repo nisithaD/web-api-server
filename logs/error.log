@@ -1,0 +1,1 @@
+2022-09-29T14:43:19.925Z [500 server errors] debug: E11000 duplicate key error collection: taste-buds.users index: email_1 dup key: { email: "john@gmail.com" }

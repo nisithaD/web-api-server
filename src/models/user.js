@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const mongoose_delete = require('mongoose-delete');
 
 const FoodReferanceSchema = new Schema({
-    food: { type: mongoose.Schema.Types.ObjectId, require: true },
-    outlet: { type: mongoose.Schema.Types.ObjectId, require: true },
-
-    price: { type: Number, require: true },
-    qty: { type: Number, require: true }
+    food: { type: mongoose.Schema.Types.ObjectId, required: true },
+    outlet: { type: mongoose.Schema.Types.ObjectId, required: true },
+    price: { type: Number, required: true },
+    qty: { type: Number, required: true },
+    lineTotal: { type: Number, required: true }
 });
 
 
@@ -18,8 +19,11 @@ const WishlistItemSchema = new Schema({
 const userSchema = new Schema({
     googleId: {
         type: String,
-        required: true,
-        unique: true
+        required: false,
+        index: true,
+        unique: true,
+        sparse: true,
+        default: null
     },
     name: {
         type: String,
@@ -46,12 +50,14 @@ const userSchema = new Schema({
     favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
     wishlist: [FoodReferanceSchema],
     cart: [FoodReferanceSchema],
-    is_admin: {
+    isAdmin: {
         type: Boolean,
         default: false
     }
 
 });
+
+userSchema.plugin(mongoose_delete); //Adding Soft Delete functionality
 
 const user = mongoose.model('User', userSchema);
 module.exports = user;

@@ -2,46 +2,41 @@ const UserController = require('../controllers/user_controller');
 
 const router = require('express').Router();
 
-// TODO: Get all Users
-router.get('/', (req, res) => { });
-// TODO: Get specific User
-router.get('/:id', (req, res) => { });
-// TODO: Get User's Cart
+//  Get all Users : Nuwan
+router.get('/', UserController.all);
+//  Get specific User :Nuwan
+router.get('/:id', UserController.specific);
+//  Get User's Cart : Nuwan
 router.get('/:id/cart', UserController.getcart);
-// TODO: Get User's Wishlist : Palamkubura
+//  Get User's Wishlist : Palamkubura
 router.get('/:id/wishlist', UserController.getWishlist);
-// TODO:: Get User's Favourites : Palamkubura
+// : Get User's Favourites : Palamkubura
 router.get('/:id/favourites', UserController.getFavourites);
 
-// TODO: Create User
-router.post('/', (req, res) => { });
+//  Create User : Nuwan
+router.post('/', UserController.newUser);
 // TODO: Add to Favourites : Palamkubura
 router.post('/:id/favourites', (req, res) => { });
-// TODO: Add to Cart
-router.post('/:id/cart', (req, res) => { });
-// TODO: Add to Wishlist
+//  Add to Cart : Nuwan
+router.post('/:id/cart', UserController.addToCart);
+//  TODO: Add to Wishlist : Palamkubura
 router.post('/:id/wishlist', (req, res) => { });
 
-// TODO: Upate existing user
-router.put('/:id', (req, res) => { });
-// TODO: Update User's Cart Item
-router.put('/:id/cart/:iid', (req, res) => { });
+//  Upate existing user : Nuwan
+router.put('/:id', UserController.updateUser);
+//  Update User's Cart Item : Nuwan
+router.put('/:id/cart/:iid', UserController.updateCart);
 
-// TODO: Delete User
-router.delete('/:id', (req, res) => { });
-// TODO: Delete cartItem
-router.delete('/:id/cart/:iid', (req, res) => { });
-// TODO: Remove Wishlist Item
+//  Delete User
+router.delete('/:id', UserController.deleteUser);
+//  Delete cartItem
+router.delete('/:id/cart/:iid', UserController.deleteCartItem);
+//  TODO: Remove Wishlist Item
 router.delete('/:id/wishlist/:iid', (req, res) => { });
-// TODO: Remove from favourities : Palamkubura
-router.delete('/:id/favourites/:fid', (req, res) => { });
+//  Remove from favourities : Palamkubura
+router.delete('/:id/favourites/:fid', UserController.deleteFavourites);
 
 
-const { register, login, verify_token, get_user } = require('../controllers/user_controller');
-
-router.post('/register', register)
-router.get('/login', login)
-router.get('/user', verify_token, get_user)
 
 
 module.exports = router;
