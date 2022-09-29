@@ -1,69 +1,69 @@
-const Restaurant=require('../models/restaurant');
+const Restaurant = require('../models/restaurant');
 
-// GET /restaurant
-const getAllRestaurant = async(req,res)=>{
+// GET /restaurant : Rumesh
+const getAllRestaurant = async (req, res) => {
     const allRestaurants = await Restaurant.find();
-    if(allRestaurants){
-    res.status(200).send({
-        statusCode: 200,
-        message: "OK",
-        data : allRestaurants
+    if (allRestaurants) {
+        res.status(200).send({
+            statusCode: 200,
+            message: "OK",
+            data: allRestaurants
 
-    });
-}else{ 
-    res.status(404).send({
-        statusCode: 404,
-        message: "Restaurant  Not Found",
-        data: []
-    });
+        });
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: "Restaurant  Not Found",
+            data: []
+        });
 
-}
+    }
 }
 
 // GET / Foods : Rumesh
 
-const RestaurantFood = async (req,res)=> {
+const RestaurantFood = async (req, res) => {
     let id = req.params.id;
-    const allRestaurantFood  = await Restaurant.findById(id);
+    const allRestaurantFood = await Restaurant.findById(id);
 
-    if(allRestaurantFood){
+    if (allRestaurantFood) {
         res.status(200).send({
             statusCode: 200,
             message: "OK",
-            data : allRestaurantFood.foods
+            data: allRestaurantFood.foods
         });
     }
     else {
         res.status(404).send({
             statusCode: 404,
-            message: "Food id:"+id+"  Not Found",
+            message: "Food id:" + id + "  Not Found",
             data: []
         });
     }
 }
 
 // GET /restaurant/:id : PalamKubura
-const getRestaurantById =async(req,res)=>{
+const getRestaurantById = async (req, res) => {
     const restaurant = await Restaurant.findById(req.params.id);
-    if(restaurant){
+    if (restaurant) {
         res.status(200).send({
             statusCode: 200,
             message: "OK",
             data: restaurant
         });
-    }else{
+    } else {
         res.status(404).send({
             statusCode: 404,
-            message: "Restaurant id:"+req.params.id +" Not Found",
+            message: "Restaurant id:" + req.params.id + " Not Found",
             data: []
         });
     }
-   
+
 }
 
 module.exports = {
-    getById:  getRestaurantById,
-    getAllRestaurants : getAllRestaurant,
+    getById: getRestaurantById,
+    getAllRestaurants: getAllRestaurant,
     getRestaurantFood: RestaurantFood
 }
 

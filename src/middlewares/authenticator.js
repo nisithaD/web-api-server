@@ -25,6 +25,8 @@ passport.use(new GoogleStrategy({
                 err = e;  // 
             }
         }
+        request.query.redirect_to = request.session.query.redirect_to;
+        request.session.query = null;
         return done(err, profile);
     }
 ));
@@ -46,16 +48,19 @@ function verifyToken(req, res, next) {
             statusCode: 401,
             message: 'Access Token is Required'
         });
+        return;
     }
     try {
-        let verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
+        let verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY, async function (err, decoded) {
             if (err) {
-                console.log(err.message);
                 res.status(401).send({
                     statusCode: 401,
                     message: err.message
                 });
+                return
             } else {
+                let user = await User.findOne({ email: decoded.email }).select({ _id: 0, googleId: 0, favourites: 0, cart: 0, wishlist: 0, __v: 0 });
+                req['user'] = user;
                 next();
             }
         });
@@ -66,8 +71,19 @@ function verifyToken(req, res, next) {
             statusCode: 401,
             message: e
         });
+        return
     }
 
 }
+function isAdmin(req, res, next) {
+    if (req.user && req.user.isAdmin) {
+        next();
+    } else {
+        res.status(403).send({
+            statusCode: 403,
+            message: "Access Unauthorized"
+        })
+    }
+}
 
-module.exports = { isLoggedIn: isLoggedIn, verifyToken: verifyToken };
+module.exports = { isLoggedIn: isLoggedIn, verifyToken: verifyToken, isAdmin: isAdmin };
