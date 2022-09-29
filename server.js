@@ -1,6 +1,7 @@
 require("dotenv").config({ path: ".env" });
 const express = require("express");
 const mongoose = require("mongoose");
+
 const passport = require('passport');
 const session = require('express-session');
 const isLoggedIn = require('./src/middlewares/authenticator');
@@ -8,7 +9,6 @@ const isLoggedIn = require('./src/middlewares/authenticator');
 const restaurantRoute = require('./src/routes/restaurant');
 const userRoute = require('./src/routes/user.js');
 const authRouter = require('./src/routes/auth');
-
 
 /** App Configurations */
 const app = express();
