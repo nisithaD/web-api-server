@@ -2,22 +2,23 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const FoodReferanceSchema = new Schema({
-    food: { type: mongoose.Schema.Types.ObjectId, required: true },
-    outlet: { type: mongoose.Schema.Types.ObjectId, required: true },
+    food: { type: mongoose.Schema.Types.ObjectId, require: true },
+    outlet: { type: mongoose.Schema.Types.ObjectId, require: true },
+
     price: { type: Number, require: true },
     qty: { type: Number, require: true }
 });
+
 
 const WishlistItemSchema = new Schema({
     food: { type: mongoose.Schema.Types.ObjectId, required: true },
     outlet: { type: mongoose.Schema.Types.ObjectId, required: true }
 })
 
-
 const userSchema = new Schema({
     googleId: {
         type: String,
-        required: false,
+        required: true,
         unique: true
     },
     name: {
