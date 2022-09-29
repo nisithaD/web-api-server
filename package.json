@@ -1,7 +1,6 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,5 +25,15 @@
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "query-string": "^7.1.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nisithaD/web-api-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nisithaD/web-api-server/issues"
+  },
+  "homepage": "https://github.com/nisithaD/web-api-server#readme",
+  "description": ""
 }
