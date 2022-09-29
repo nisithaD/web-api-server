@@ -1,33 +1,16 @@
 var express = require('express');
 var router = express.Router();
-
 var { Restaurant } = require('../models/restaurant');
-var restaurantController = require('../controllers/restaurant_controller');
+var RestaurantController = require('../controllers/restaurant_controller');
+const { application } = require('express');
 // var { verifyToken } = require('../middlewares/authenticator');
 
-/* GET home page. */
-router.get('/', async function (req, res, next) {
-  const allRestaurants = await Restaurant.find();
-  res.send(allRestaurants);
-
-});
-
-// var restaurant_controller = require('../controllers/restaurant_controller');
-// var { verifyToken } = require('../middlewares/authenticator');
-
-// router.get('/', verifyToken, restaurant_controller.get_all_restaurants);
-// router.get('/:id', verifyToken, restaurant_controller.get_restaurant_by_id);
-// router.post('/', verifyToken, restaurant_controller.create_restaurant);
-// router.put('/:id', verifyToken, restaurant_controller.update_restaurant);
-// router.delete('/:id', verifyToken, restaurant_controller.delete_restaurant);
-
-
-// All Restaurants
-router.get('/',  (req, res)=>{});
+// Get All restaurants : Rumesh 
+router.get('/', RestaurantController.getAllRestaurants);
 // Specific Restaurant : Palamkubura
-router.get('/:id',  restaurantController.getById);
-// TODO: Get Specific Restaurant foods
-router.get('/:id/foods', (req, res) => { });
+router.get('/:id',  RestaurantController.getById);
+// TODO: Get Specific Restaurant foods : Rumesh
+router.get('/:id/foods', RestaurantController.getRestaurantFood);
 // TODO: Get Specific Restaurant Location
 router.get('/:id/location', (req, res) => { });
 

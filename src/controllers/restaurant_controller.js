@@ -1,126 +1,69 @@
 const Restaurant=require('../models/restaurant');
 
-// const router = require('../routes/user');
-const get_restaurant_by_id=async(req,res)=>{
+// GET /restaurant
+const getAllRestaurant = async(req,res)=>{
+    const allRestaurants = await Restaurant.find();
+    if(allRestaurants){
+    res.status(200).send({
+        statusCode: 200,
+        message: "OK",
+        data : allRestaurants
+
+    });
+}else{ 
+    res.status(404).send({
+        statusCode: 404,
+        message: "Restaurant  Not Found",
+        data: []
+    });
+
+}
+}
+
+// GET / Foods : Rumesh
+
+const RestaurantFood = async (req,res)=> {
+    let id = req.params.id;
+    const allRestaurantFood  = await Restaurant.findById(id);
+
+    if(allRestaurantFood){
+        res.status(200).send({
+            statusCode: 200,
+            message: "OK",
+            data : allRestaurantFood.foods
+        });
+    }
+    else {
+        res.status(404).send({
+            statusCode: 404,
+            message: "Food id:"+id+"  Not Found",
+            data: []
+        });
+    }
+}
+
+// GET /restaurant/:id : PalamKubura
+const getRestaurantById =async(req,res)=>{
     const restaurant = await Restaurant.findById(req.params.id);
     if(restaurant){
         res.status(200).send({
-            statusCode:200,
+            statusCode: 200,
             message: "OK",
-            data:restaurant
+            data: restaurant
         });
     }else{
         res.status(404).send({
             statusCode: 404,
-            message: "Resturant Id:" + req.params.id +" Not found."
+            message: "Restaurant id:"+req.params.id +" Not Found",
+            data: []
         });
     }
    
 }
 
-module.exports ={
-    getById: get_restaurant_by_id
+module.exports = {
+    getById:  getRestaurantById,
+    getAllRestaurants : getAllRestaurant,
+    getRestaurantFood: RestaurantFood
 }
 
-const router = require('../routes/user');
-
-// GET /restaurant
-exports.get_all_restaurants=async(req,res)=>{
-    const allRestaurants=await Restaurant.find();
-    res.send(allRestaurants);
-}
-
-// GET /restaurant/:id
-exports.get_restaurant_by_id=async(req,res)=>{
-    const restaurant=await Restaurant.findById(req.params.id);
-    res.send(restaurant);
-}
-
-// POST /restaurant
-exports.create_restaurant=async(req,res)=>{
-
-    //TODO Check if logged in user is admin
-
-    //TODO get auth user
-
-    if(user.is_admin=false){
-        return res.status(401).json({message:"You are not authorized to create a restaurant."})
-    }else{
-        let exsistingRestaurant;
-        try{
-            exsistingRestaurant=await Restaurant.findOne({name:req.body.name});
-        }catch(err){
-            return res.status(500).json({message:"Something went wrong, please try again later."})
-        }
-        if(exsistingRestaurant){
-            return res.status(422).json({message:"Restaurant name is already exists. Please try different name."})
-        }
-        try{
-            const restaurant=new Restaurant(req.body);
-            await restaurant.save();
-            res.send(restaurant,200);
-        }catch(err){
-            return res.status(422).json({message:"Something went wrong, please try again later."})
-        }
-    }
-}
-
-// PUT /restaurant/:id
-exports.update_restaurant=async(req,res)=>{
-    
-   //TODO get auth user
-
-    if(user.is_admin=false){
-        return res.status(401).json({message:"You are not authorized to update a restaurant."})
-    }else{
-    //find for restaurant
-    let restaurant;
-    try{
-        restaurant=await Restaurant.findById(req.params.id);
-    }catch(err){
-        return res.status(500).json({message:"Something went wrong, please try again later."})
-    }
-
-    if(!restaurant){
-        return res.status(404).json({message:"Restaurant not found."})
-    }else{
-        //update restaurant
-            try{
-                restaurant=req.body;
-                await restaurant.save();
-                res.send(restaurant,200);
-            }catch(err){
-                return res.status(422).json({message:"Something went wrong, please try again later."})
-            }
-        }
-    }
-}
-
-// DELETE /restaurant/:id
-exports.delete_restaurant=async(req,res)=>{
-    
-    //TODO get auth user
-
-    if(user.is_admin=false){
-        return res.status(401).json({message:"You are not authorized to delete a restaurant."})
-    }else{
-    //find for restaurant
-        let restaurant;
-        try{
-            restaurant=await Restaurant.findById(req.params.id);
-        }catch(err){
-            return res.status(500).json({message:"Something went wrong, please try again later."})
-        }
-    if(!restaurant){
-        return res.status(404).json({message:"Restaurant not found."})
-    }else{
-        //delete restaurant
-            try{
-                await restaurant.remove();
-                res.send(restaurant,200);
-            }catch(err){
-                return res.status(422).json({message:"Something went wrong, please try again later."})
-            }
-        }
-    }
-}

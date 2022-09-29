@@ -1,4 +1,5 @@
 require("dotenv").config({ path: ".env" });
+
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -11,6 +12,7 @@ const userRoute = require('./src/routes/user');
 const authRouter = require('./src/routes/auth');
 
 /** App Configurations */
+const logger = require("./src/middlewares/logger");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
@@ -26,6 +28,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.json());
+app.use(logger);
 
 
 /** Routes */
