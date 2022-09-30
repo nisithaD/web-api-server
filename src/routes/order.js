@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var { verifyToken } = require('../middlewares/authenticator');
+var { verifyToken,isLoggedIn } = require('../middlewares/authenticator');
 
 // TODO: All Orders
 router.get('/', (req, res) => { });
@@ -22,13 +22,13 @@ router.put('/:id', (req, res) => { });
 var orders_controller = require('../controllers/orders_controller');
 const auth = require('../middlewares/authenticator');
 
-router.post('/', auth, orders_controller.create_order);
-router.get('/get_all_orders', auth, orders_controller.get_all_orders);
-router.get('/:id', auth, orders_controller.get_order);
-router.put('/:id', auth, orders_controller.update_order);
-router.delete('/:id', auth, orders_controller.delete_order);
-router.get('/get_restaurant_orders/:id', auth, orders_controller.get_restaurant_orders);
-router.put('/mark_as_completed/:id', auth, orders_controller.mark_as_completed);
+router.post('/',isLoggedIn,orders_controller.create_order);
+router.get('/get_all_orders',isLoggedIn,orders_controller.get_all_orders);
+router.get('/:id',isLoggedIn,orders_controller.get_order);
+router.put('/:id',isLoggedIn,orders_controller.update_order);
+router.delete('/:id',isLoggedIn,orders_controller.delete_order);
+router.get('/get_restaurant_orders/:id',isLoggedIn,orders_controller.get_restaurant_orders);
+router.put('/mark_as_completed/:id',isLoggedIn,orders_controller.mark_as_completed);
 
 module.exports = router;
 
