@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoose_delete = require('mongoose-delete');
 
 const FoodSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -15,12 +16,15 @@ const LocationSchema = new mongoose.Schema({
 
 const RestaurantSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    rating: { type: Number },
+    rating: { type: Number, default: 0 },
     address: { type: String, required: true },
     display_image: { type: String },
     foods: [FoodSchema],
     location: { type: LocationSchema, required: true }
 });
+
+FoodSchema.plugin(mongoose_delete); //Adding Soft Delete functionality
+RestaurantSchema.plugin(mongoose_delete); //Adding Soft Delete functionality
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 
