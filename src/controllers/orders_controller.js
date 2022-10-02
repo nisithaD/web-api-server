@@ -176,3 +176,5 @@ exports.mark_as_completed = async (req, res) => {
         order
     });
 }
+
+module.exports = exports;
