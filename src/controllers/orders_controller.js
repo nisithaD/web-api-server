@@ -5,42 +5,52 @@ const Order = require('../models/order');
 //create order
 exports.create_order = async (req, res) => {
     //get auth user
-    const user = await User.findById(req.user._id);
-    //get restaurant
-    const restaurant = await Restaurant.findById(req.body.restaurant_id);
-    //check if restaurant exists
-    if (!restaurant) {
-        return res.status(400).json({ error: 'Restaurant not found' });
-    }else{
-        //calculate restaurent items total
-        let total = 0;
-        req.body.items.forEach(item => {
-            //get item from restaurant
-            const restaurantItem = restaurant.items.find(restaurantItem => restaurantItem._id == item.item_id);
-            //check if item exists
-            if (!restaurantItem) {
-                return res.status(400).json({ error: 'Item not found!' });
-            }else{
-                //calculate total
-                total += restaurantItem.price * item.quantity;
-            }
-        });
+    try{
+        const user = await User.findById(req.user._id);
+        //get restaurant
+        const restaurant = await Restaurant.findById(req.body.restaurant_id);
+        //check if restaurant exists
+        if (!restaurant) {
+            return res.status(400).json({ error: 'Restaurant not found' });
+        }else{
+            //calculate restaurent items total
+            let total = 0;
+            req.body.items.forEach(item => {
+                //get item from restaurant
+                const restaurantItem = restaurant.items.find(restaurantItem => restaurantItem._id == item.item_id);
+                //check if item exists
+                if (!restaurantItem) {
+                    return res.status(400).json({ error: 'Item not found!' });
+                }else{
+                    //calculate total
+                    total += restaurantItem.price * item.quantity;
+                }
+            });
+        }
+    } catch (error) {
+        console.log(error);
     }
-    //create order
-    const order = new Order({
-        user_id: user._id,
-        restaurant_id: req.body.restaurant_id,
-        items: req.body.items,
-        total: total
-    });
-    //save order
-    await order.save();
-    //return response
-    res.status(200).json({
-        success: true,
-        message: 'Order created successfully',
-        order
-    });
+    try{
+        //create order
+        const order = await Order.create({
+            user_id: user._id,
+            restaurant_id: req.body.restaurant_id,
+            items: req.body.items,
+            total: total
+        });
+        //return response
+        res.status(200).json({
+            success: true,
+            message: 'Order created successfully',
+            order
+        });
+    }catch(err){
+        res.status(500).send({
+            statusCode: 500,
+            message: "Failed to create order. Please try again later"
+        })
+        errorLogger.debug(e.message);
+    }
 }
 
 //get user's all orders
@@ -94,11 +104,24 @@ exports.update_order = async (req, res) => {
 
 //delete order
 exports.delete_order = async (req, res) => {
-    //get order
-    const order = await Order.findById(req.params.id);
+    try{
+        const user= await User.findById(req.user._id);
+        //get order
+        const order = await Order.findById(req.params.id);
+    }catch(err){
+        res.status(500).send({
+            statusCode: 500,
+            message: "Something Went worng. Please try again later"
+        })
+        errorLogger.debug(e.message);
+    }
     //check if order exists
     if (!order) {
         return res.status(400).json({ error: 'Order not found' });
+    }
+
+    if(order.user_id != user._id){
+        return res.status(400).json({ error: 'You are not authorized to delete this order' });
     }
     //check order completed
     if (order.is_completed) {
