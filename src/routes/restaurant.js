@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var RestaurantController = require('../controllers/restaurant_controller');
-// var { verifyToken } = require('../middlewares/authenticator');
+var { verifyToken, isAdmin } = require('../middlewares/authenticator');
 
 // Get All restaurants : Rumesh 
-router.get('/', RestaurantController.getAllRestaurants);
+router.get('/', verifyToken, RestaurantController.getAllRestaurants);
 // Specific Restaurant : Palamkubura
 router.get('/:id', RestaurantController.getById);
 // Get Specific Restaurant foods : Rumesh
@@ -13,7 +13,7 @@ router.get('/:id/foods', RestaurantController.getRestaurantFood);
 router.get('/:id/location', RestaurantController.getLocation);
 
 // Create a Restaurant
-router.post('/', RestaurantController.createRestaurant);
+router.post('/', verifyToken, isAdmin, RestaurantController.createRestaurant);
 // Add Food to specific Restaurant
 router.post('/:id/foods', RestaurantController.addFoods);
 
