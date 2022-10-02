@@ -2,8 +2,6 @@ const User = require('../models/user');
 const router = require('../routes/user');
 const { errorLogger } = require('../helper.util');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-
 
 // Get All Users : Nuwan
 const index = async (req, res) => {
@@ -96,21 +94,10 @@ const create = async (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         isAdmin: req.body.isAdmin,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword
+        password: req.body.password
     }
 
-    if (args.password !== args.confirmPassword) {
-        res.status(400).send({
-            statusCode: 400,
-            message: "Password and Confirm Password does not match",
-        });
-        return;
-    }
-    const salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND));
-    args.password = await bcrypt.hash(args.password, salt);
-
-    // Check email exists
+    // Check Email exists
     let existingUser = await User.findOne({ email: args.email });
     if (existingUser) {
         res.status(303).send({
@@ -174,4 +161,262 @@ const addToCart = async (req, res) => {
             })
         } else {
             try {
-                user.cart.push(arg
+                user.cart.push(args);
+                let err = user.validateSync();
+                if (err) {
+                    let errors = {};
+
+                    Object.keys(err.errors).forEach((key) => {
+                        errors[key] = err.errors[key].message;
+                    });
+                    res.status(400).send({
+                        statusCode: 400,
+                        message: err._message,
+                        errors: errors
+                    })
+                } else {
+                    await user.save();
+                    res.status(201).send({
+                        statusCode: 201,
+                        message: "OK",
+                        data: user
+                    })
+                }
+            } catch (e) {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: "Something Went worng. Please try again later"
+                })
+                errorLogger.debug(e.message);
+            }
+        }
+
+
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+
+
+// Update A user : Nuwan
+const updateUser = async (req, res) => {
+    let id = req.params.id;
+    let user = await User.findById(id);
+    if (user) {
+        user.name = req.body.name;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.address = req.body.address;
+        user.phone = req.body.phone;
+
+        let err = user.validateSync();
+        try {
+            if (err) {
+                let errors = {};
+
+                Object.keys(err.errors).forEach((key) => {
+                    errors[key] = err.errors[key].message;
+                });
+                res.status(400).send({
+                    statusCode: 400,
+                    message: err._message,
+                    errors: errors
+                })
+            } else {
+                await user.save();
+                res.status(201).send({
+                    statusCode: 201,
+                    message: "OK",
+                    data: user
+                })
+            }
+        } catch (e) {
+            res.status(500).send({
+                statusCode: 500,
+                message: "Something Went worng. Please try again later"
+            })
+            errorLogger.debug(e.message);
+        }
+
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+// Update Existing Cart Item : Nuwan
+const updateCart = async (req, res) => {
+    let userId = req.params.id;
+    let cartItem = req.params.iid;
+
+    let user = await User.findById(userId);
+    if (user) {
+        let index = user.cart.findIndex((x) => {
+            return x._id.equals(cartItem);
+        })
+        if (index === -1) {
+            res.status(404).send({
+                statusCode: 404,
+                message: "Cart item not exists",
+            });
+        } else {
+            user.cart[index].food = req.body.food;
+            user.cart[index].outlet = req.body.outlet;
+            user.cart[index].qty = req.body.qty;
+            user.cart[index].price = req.body.price;
+            user.cart[index].lineTotal = req.body.lineTotal;
+            try {
+                let err = user.validateSync();
+                if (err) {
+                    let errors = {};
+
+                    Object.keys(err.errors).forEach((key) => {
+                        errors[key] = err.errors[key].message;
+                    });
+                    res.status(400).send({
+                        statusCode: 400,
+                        message: err._message,
+                        errors: errors
+                    })
+                } else {
+                    await user.save();
+                    res.status(201).send({
+                        statusCode: 201,
+                        message: "OK",
+                        data: user
+                    })
+                }
+            } catch (e) {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: "Something Went worng. Please try again later"
+                })
+                errorLogger.debug(e.message);
+            }
+        }
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+
+// Remove FromFavourites : Palamkubura
+const deleteFavourites = async (req, res) => {
+    let id = req.params.id;
+    let fid = req.params.id;
+    // Checkif user exists
+    let user = await User.findById(id);
+    if (user) {
+        // check the favourites exists
+        // If exists remove
+        let fav = user.favourites.id(fid);
+        if (fav) {
+            fav.remove();
+            await user.save();
+            res.status(200).send({
+                statusCode: 200,
+                message: "Deleted",
+                data: user.favourites
+            })
+        } else {
+            res.status(404).send({
+                statusCode: 404,
+                message: "Favourites Item Not exists",
+                data: user.favourites
+            });
+        }
+
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: "wish List" + req.params.id + " Not found.",
+        });
+    }
+}
+// Delete Cart Item : Nuwan
+const deleteCartItem = async (req, res) => {
+    let id = req.params.id;
+    let user = await User.findById(id);
+    let cartItem = req.params.iid;
+    if (user) {
+        try {
+            let index = user.cart.findIndex((x) => {
+                return x._id.equals(cartItem);
+            })
+            if (index == -1) {
+                res.status(404).send({
+                    statusCode: 404,
+                    message: "Cart item not exists",
+                });
+            } else {
+                user.cart.id(cartItem).remove();
+                await user.save();
+                res.status(200).send({
+                    statusCode: 200,
+                    message: "OK"
+                });
+            }
+        } catch (e) {
+            res.status(500).send({
+                statusCode: 500,
+                message: "Something Went worng. Please try again later"
+            })
+            errorLogger.debug(e.message);
+        }
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+// Delete User : Nuwan
+const deleteUser = async (req, res) => {
+    let id = req.params.id;
+    let user = await User.findById(id);
+    if (user) {
+        try {
+            await user.delete(); // Soft Delete 
+            if (user.deleted) {
+                res.status(200).send({
+                    statusCode: 200,
+                    message: "OK",
+                })
+            }
+        } catch (e) {
+            res.status(500).send({
+                statusCode: 500,
+                message: "Something Went worng. Please try again later"
+            })
+            errorLogger.debug(e.message);
+        }
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+
+module.exports = {
+    all: index,
+    specific: find,
+    newUser: create,
+    addToCart: addToCart,
+    getWishlist: getWishlist,
+    getcart: getcart,
+    getFavourites: getFavourites,
+    deleteFavourites: deleteFavourites,
+    updateUser: updateUser,
+    updateCart: updateCart,
+    deleteCartItem: deleteCartItem,
+    deleteUser: deleteUser,
+}
+
+
