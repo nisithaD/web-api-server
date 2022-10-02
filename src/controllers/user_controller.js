@@ -306,18 +306,142 @@ const updateCart = async (req, res) => {
     }
 }
 
+
+// Add to Favourites  : palamakumbura
+const addFavourites = async (req, res) => {
+    let id = req.params.id;
+    // Checkfor the existsance
+
+    let user = await User.findById(id);
+    if (user) {
+        let args = {
+            _id: req.body.outlet
+        };
+        // Check Item already exists in the favourits
+        let index = user.favourites.findIndex((x) => {
+            return (x._id.equals(mongoose.Types.ObjectId(args._id)));
+        });
+        if (index !== -1) {
+            res.status(303).send({
+                statusCode: 303,  // https://www.rfc-editor.org/rfc/rfc7231#section-4.3.3
+                message: "Restaurant is Already Exists in the Favourites"
+            })
+        } else {
+            try {
+                user.favourites.push(args);
+                let err = user.validateSync();
+                if (err) {
+                    let errors = {};
+
+                    Object.keys(err.errors).forEach((key) => {
+                        errors[key] = err.errors[key].message;
+                    });
+                    res.status(400).send({
+                        statusCode: 400,
+                        message: err._message,
+                        errors: errors
+                    })
+                } else {
+                    await user.save();
+                    res.status(201).send({
+                        statusCode: 201,
+                        message: "OK",
+                        data: user
+                    })
+                }
+            } catch (e) {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: "Something Went worng. Please try again later"
+                })
+                errorLogger.debug(e.message);
+            }
+        }
+
+
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+
+
+// Add to wishlist  : Palamakumbura
+const addToWishlist = async (req, res) => {
+    let id = req.params.id;
+    // Checkfor the existsance
+
+    let user = await User.findById(id);
+    if (user) {
+        let args = {
+            food: req.body.food,
+            outlet: req.body.outlet
+        };
+        // Check Item already exists in the wishlist
+        let index = user.wishlist.findIndex((x) => {
+            return (x.food.equals(mongoose.Types.ObjectId(args.food)) && x.outlet.equals(mongoose.Types.ObjectId(args.outlet)));
+        });
+        if (index !== -1) {
+            res.status(303).send({
+                statusCode: 303,  // https://www.rfc-editor.org/rfc/rfc7231#section-4.3.3
+                message: "Item Already Exists in the wishlist"
+            })
+        } else {
+            try {
+                user.wishlist.push(args);
+                let err = user.validateSync();
+                if (err) {
+                    let errors = {};
+                    Object.keys(err.errors).forEach((key) => {
+                        errors[key] = err.errors[key].message;
+                    });
+                    res.status(400).send({
+                        statusCode: 400,
+                        message: err._message,
+                        errors: errors
+                    })
+                } else {
+                    await user.save();
+                    res.status(201).send({
+                        statusCode: 201,
+                        message: "OK",
+                        data: user
+                    })
+                }
+            } catch (e) {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: "Something Went worng. Please try again later"
+                })
+                errorLogger.debug(e.message);
+            }
+        }
+
+
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+
 // Remove FromFavourites : Palamkubura
 const deleteFavourites = async (req, res) => {
     let id = req.params.id;
-    let fid = req.params.id;
+    let fid = req.params.fid;
     // Checkif user exists
     let user = await User.findById(id);
     if (user) {
         // check the favourites exists
         // If exists remove
-        let fav = user.favourites.id(fid);
-        if (fav) {
-            fav.remove();
+        let fav = user.favourites.findIndex((x)=>{
+            return x.equals(mongoose.Types.ObjectId(fid))
+        })
+        if (user.favourites[fav]) {
+            user.favourites.splice(fav,1);
             await user.save();
             res.status(200).send({
                 statusCode: 200,
@@ -339,6 +463,45 @@ const deleteFavourites = async (req, res) => {
         });
     }
 }
+
+// Delete wishlist Item : Palamakumbura
+const deleteWishlist = async (req, res) => {
+    let id = req.params.id;
+    let user = await User.findById(id);
+    let wishlistId = req.params.iid;
+    if (user) {
+        try {
+            let index = user.wishlist.findIndex((x) => {
+                return x._id.equals(wishlistId);
+            })
+            if (index == -1) {
+                res.status(404).send({
+                    statusCode: 404,
+                    message: "wishlist item not exists",
+                });
+            } else {
+                user.wishlist.id(wishlistId).remove();
+                await user.save();
+                res.status(200).send({
+                    statusCode: 200,
+                    message: "OK"
+                });
+            }
+        } catch (e) {
+            res.status(500).send({
+                statusCode: 500,
+                message: "Something Went worng. Please try again later"
+            })
+            errorLogger.debug(e.message);
+        }
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: `User id:${id} Not Found.`
+        })
+    }
+}
+
 // Delete Cart Item : Nuwan
 const deleteCartItem = async (req, res) => {
     let id = req.params.id;
@@ -409,10 +572,13 @@ module.exports = {
     specific: find,
     newUser: create,
     addToCart: addToCart,
+    addFavourites: addFavourites,
+    addToWishlist: addToWishlist,
     getWishlist: getWishlist,
     getcart: getcart,
     getFavourites: getFavourites,
     deleteFavourites: deleteFavourites,
+    deleteWishlist: deleteWishlist,
     updateUser: updateUser,
     updateCart: updateCart,
     deleteCartItem: deleteCartItem,

@@ -1,1 +1,4 @@
 2022-09-29T14:43:19.925Z [500 server errors] debug: E11000 duplicate key error collection: taste-buds.users index: email_1 dup key: { email: "john@gmail.com" }
+2022-10-02T19:30:57.770Z [500 server errors] debug: Cast to ObjectId failed for value "{ outlet: '6339b7f02a394e7045ebf062' }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-02T20:19:25.447Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-02T20:20:16.188Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"

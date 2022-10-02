@@ -15,12 +15,12 @@ router.get('/:id/favourites', UserController.getFavourites);
 
 //  Create User : Nuwan
 router.post('/', UserController.newUser);
-// TODO: Add to Favourites : Palamkubura
-router.post('/:id/favourites', (req, res) => { });
+// TODO: Add to Favourites : Palamakumbura
+router.post('/:id/favourites', UserController.addFavourites);
 //  Add to Cart : Nuwan
 router.post('/:id/cart', UserController.addToCart);
-//  TODO: Add to Wishlist : Palamkubura
-router.post('/:id/wishlist', (req, res) => { });
+//  TODO: Add to Wishlist : Palamakumbura
+router.post('/:id/wishlist', UserController.addToWishlist);
 
 //  Upate existing user : Nuwan
 router.put('/:id', UserController.updateUser);
@@ -31,9 +31,9 @@ router.put('/:id/cart/:iid', UserController.updateCart);
 router.delete('/:id', UserController.deleteUser);
 //  Delete cartItem
 router.delete('/:id/cart/:iid', UserController.deleteCartItem);
-//  TODO: Remove Wishlist Item
-router.delete('/:id/wishlist/:iid', (req, res) => { });
-//  Remove from favourities : Palamkubura
+//  TODO: Remove Wishlist Item : palamakumbura //not code
+router.delete('/:id/wishlist/:iid', UserController.deleteWishlist);
+//  Remove from favourities : Palamkubura //error
 router.delete('/:id/favourites/:fid', UserController.deleteFavourites);
 
 

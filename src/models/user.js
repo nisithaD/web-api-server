@@ -48,7 +48,7 @@ const userSchema = new Schema({
         required: false
     },
     favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
-    wishlist: [FoodReferanceSchema],
+    wishlist: [WishlistItemSchema],
     cart: [FoodReferanceSchema],
     isAdmin: {
         type: Boolean,
