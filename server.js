@@ -10,6 +10,7 @@ const isLoggedIn = require('./src/middlewares/authenticator');
 const restaurantRoute = require('./src/routes/restaurant');
 const userRoute = require('./src/routes/user');
 const authRouter = require('./src/routes/auth');
+const orderRoute = require('./src/routes/order');
 
 /** App Configurations */
 const logger = require("./src/middlewares/logger");
@@ -37,6 +38,7 @@ app.use(logger);
 app.use('/api/restaurants', restaurantRoute);
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRouter);
+app.use('/api/orders', orderRoute);
 
 
 app.listen(port, async () => {
