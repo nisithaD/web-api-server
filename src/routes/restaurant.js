@@ -4,7 +4,7 @@ var RestaurantController = require('../controllers/restaurant_controller');
 var { verifyToken, isAdmin } = require('../middlewares/authenticator');
 
 // Get All restaurants : Rumesh 
-router.get('/', verifyToken, RestaurantController.getAllRestaurants);
+router.get('/', RestaurantController.getAllRestaurants);
 // Specific Restaurant : Palamkubura
 router.get('/:id', RestaurantController.getById);
 // Get Specific Restaurant foods : Rumesh

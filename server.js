@@ -13,7 +13,6 @@ const authRouter = require('./src/routes/auth');
 const orderRoute = require('./src/routes/order');
 
 /** App Configurations */
-const logger = require("./src/middlewares/logger");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
@@ -31,7 +30,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.json());
-app.use(logger);
 
 
 /** Routes */
