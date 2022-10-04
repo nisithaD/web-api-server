@@ -1,9 +1,10 @@
 const Restaurant = require('../models/restaurant');
-const { errorLogger } = require('../helper.util');
+const { errorLogger,accessLogger} = require('../helper.util');
 const mongoose = require('mongoose');
 
 // GET /restaurant : Rumesh
 const getAllRestaurant = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     const allRestaurants = await Restaurant.find();
     if (allRestaurants) {
         res.status(200).send({
@@ -25,6 +26,7 @@ const getAllRestaurant = async (req, res) => {
 // GET / Foods : Rumesh
 
 const RestaurantFood = async (req, res) => {
+    accessLogger.access();
     let id = req.params.id;
     const allRestaurantFood = await Restaurant.findById(id);
 
