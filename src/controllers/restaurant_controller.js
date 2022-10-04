@@ -11,7 +11,6 @@ const getAllRestaurant = async (req, res) => {
             statusCode: 200,
             message: "OK",
             data: allRestaurants
-
         });
     } else {
         res.status(404).send({
