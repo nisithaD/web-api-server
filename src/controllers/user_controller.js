@@ -2,6 +2,7 @@ const User = require('../models/user');
 const router = require('../routes/user');
 const { errorLogger } = require('../helper.util');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 // Get All Users : Nuwan
 const index = async (req, res) => {
@@ -94,9 +95,20 @@ const create = async (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         isAdmin: req.body.isAdmin,
-        password: req.body.password
+        password: req.body.password,
+        confirmPassword : req.body.confirmPassword
     }
-
+    
+    if(args.password !== args.confirmPassword){
+    res.status(402).send({
+            statusCode: 402, 
+            message: `Password and confirm password mismatch`
+        })
+        return;
+    }
+    let salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND));
+    args.password = await bcrypt.hash(args.password, salt);
+    
     // Check Email exists
     let existingUser = await User.findOne({ email: args.email });
     if (existingUser) {
