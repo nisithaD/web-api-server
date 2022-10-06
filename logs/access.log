@@ -6,7 +6,4 @@
 2022-10-04T15:01:13.809Z [Access log] info: /api/restaurants/
 2022-10-04T15:10:31.692Z [Access log] info: /api/restaurants/
 2022-10-04T15:11:05.914Z [Access log] info: /api/restaurants/
-2022-10-06T13:57:54.141Z [Access log] info: /api/restaurants/
-2022-10-06T14:00:35.810Z [Access log] info: /api/restaurants/632bacc5a298c96850620e88
-2022-10-06T14:01:18.570Z [Access log] info: /api/restaurants/632bacc5a298c96850620e88/foods
-2022-10-06T14:03:34.167Z [Access log] info: /api/restaurants/632bacc5a298c96850620e88/location
+2022-10-06T04:59:11.443Z [Access log] info: /api/restaurants/

@@ -9,6 +9,15 @@ const login = async (req, res) => {
     const password = req.body.password;
     let user = await User.findOne({ email: email });
     if (user) {
+    if(!user.password){
+        // This  means user has create account using  Google Auth,
+        // So send a error message
+         res.status(404).send({
+                statusCode: 404,
+                message: "Email or password is Invalid"
+           })
+           return;
+   } 
         if (await bcrypt.compare(password, user.password)) {
             let data = {
                 "_id": user._id,
