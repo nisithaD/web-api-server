@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const login = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     const email = req.body.email;
     const password = req.body.password;
     let user = await User.findOne({ email: email });
@@ -37,6 +38,7 @@ const login = async (req, res) => {
 
 }
 const logout = (req, res) => {
+    accessLogger.info(req.originalUrl);
     req.logout(function (err) {
         if (err) { return next(err); }
         req.session.destroy();
@@ -78,7 +80,6 @@ const grant = (req, res, next) => {
 }
 
 const accessToken = async (req, res) => {
-
     let email = req.query.email;
     let grantCode = req.query.grantCode;
     const verified = jwt.verify(grantCode, process.env.JWT_SECRET_KEY);

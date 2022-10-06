@@ -1,9 +1,11 @@
 const Restaurant = require('../models/restaurant');
 const User = require('../models/user');
 const Order = require('../models/order');
+const { accessLogger} = require('../helper.util');
 
 //create order
 exports.create_order = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     //get auth user
     try{
         const user = await User.findById(req.user._id);
@@ -55,6 +57,7 @@ exports.create_order = async (req, res) => {
 
 //get user's all orders
 exports.get_all_orders = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     //get auth user
     const user = await User.findById(req.user._id);
     //get orders
@@ -68,6 +71,7 @@ exports.get_all_orders = async (req, res) => {
 
 //get order
 exports.get_order = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     //get order
     const order = await Order.findById(req.params.id);
     //check if order exists
@@ -84,6 +88,7 @@ exports.get_order = async (req, res) => {
 //update order
 //TODO need some fixes
 exports.update_order = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     //get order
     const order = await Order.findById(req.params.id);
     //check if order exists
@@ -104,6 +109,7 @@ exports.update_order = async (req, res) => {
 
 //delete order
 exports.delete_order = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     try{
         const user= await User.findById(req.user._id);
         //get order
@@ -138,6 +144,7 @@ exports.delete_order = async (req, res) => {
 
 //get restaurant's orders
 exports.get_restaurant_orders = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     //get restaurant
     const restaurant = await Restaurant.findById(req.params.id);
     //check if restaurant exists
@@ -155,6 +162,7 @@ exports.get_restaurant_orders = async (req, res) => {
 
 //mark as completed
 exports.mark_as_completed = async (req, res) => {
+    accessLogger.info(req.originalUrl);
     //get order
     const order = await Order.findById(req.params.id);
     //check if order exists
