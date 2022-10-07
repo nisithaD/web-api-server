@@ -208,8 +208,6 @@ const addToCart = async (req, res) => {
                 errorLogger.debug(e.message);
             }
         }
-
-
     } else {
         res.status(404).send({
             statusCode: 404,
