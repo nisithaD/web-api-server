@@ -26,6 +26,7 @@ passport.use(new GoogleStrategy({
             }
         }
         request.query.redirect_to = request.session.query.redirect_to;
+        request.query.email = profile.email
         request.session.query = null;
         return done(err, profile);
     }

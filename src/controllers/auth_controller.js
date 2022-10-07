@@ -75,13 +75,14 @@ const successRedirect = (req, res) => {
     }
 
     const token = jwt.sign(data, jwtSecretKey);
-    if (req.query.redirect_to) {
+    if (req.query.redirect_to && req.query.email) {
         let redirect = req.query.redirect_to;
+        let email =  req.query.email;
         req.session.query = null;
         // res.redirect(redirect + "?code=" + token);
-        res.redirect(301, redirect + '?code=' + token);
+        res.redirect(301, redirect + '?code=' + token + '&email='+email);
     } else {
-        res.redirect('/api/auth/grant?code=' + token);
+        res.redirect('/api/auth/grant?code=' + token + '&email='+email);
     }
 }
 const grant = (req, res, next) => {

@@ -106,8 +106,9 @@ const createRestaurant = async (req, res) => {
         }
         restaurant.foods = foods;
     }
-    if (req.body.location && req.body.location.lat && req.body.location.lng) {
 
+    if (req.body.location && req.body.location.lat && req.body.location.lng) {
+        
         restaurant.location = {
             lat: req.body.location.lat,
             lng: req.body.location.lng
