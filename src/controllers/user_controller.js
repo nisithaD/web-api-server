@@ -158,7 +158,6 @@ const addToCart = async (req, res) => {
     accessLogger.info(req.originalUrl);
     let id = req.params.id;
     // Checkfor the existsance
-
     let user = await User.findById(id);
     if (user) {
         let args = {
@@ -208,6 +207,8 @@ const addToCart = async (req, res) => {
                 errorLogger.debug(e.message);
             }
         }
+
+
     } else {
         res.status(404).send({
             statusCode: 404,
