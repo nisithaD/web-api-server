@@ -1,9 +1,9 @@
 const UserController = require('../controllers/user_controller');
-
+var { verifyToken, isAdmin } = require('../middlewares/authenticator');
 const router = require('express').Router();
 
 //  Get all Users : Nuwan
-router.get('/', UserController.all);
+router.get('/', verifyToken, isAdmin, UserController.all);
 //  Get specific User :Nuwan
 router.get('/:id', UserController.specific);
 //  Get User's Cart : Nuwan
@@ -15,23 +15,23 @@ router.get('/:id/favourites', UserController.getFavourites);
 
 //  Create User : Nuwan
 router.post('/', UserController.newUser);
-// TODO: Add to Favourites : Palamakumbura
+//  Add to Favourites : Palamakumbura
 router.post('/:id/favourites', UserController.addFavourites);
 //  Add to Cart : Nuwan
 router.post('/:id/cart', UserController.addToCart);
-//  TODO: Add to Wishlist : Palamakumbura
+//  Add to Wishlist : Palamakumbura
 router.post('/:id/wishlist', UserController.addToWishlist);
 
 //  Upate existing user : Nuwan
-router.put('/:id', UserController.updateUser);
+router.put('/:id', verifyToken, UserController.updateUser);
 //  Update User's Cart Item : Nuwan
 router.put('/:id/cart/:iid', UserController.updateCart);
 
 //  Delete User
-router.delete('/:id', UserController.deleteUser);
+router.delete('/:id', verifyToken, isAdmin, UserController.deleteUser);
 //  Delete cartItem
 router.delete('/:id/cart/:iid', UserController.deleteCartItem);
-//  TODO: Remove Wishlist Item : palamakumbura //not code
+//  Remove Wishlist Item : palamakumbura //not code
 router.delete('/:id/wishlist/:iid', UserController.deleteWishlist);
 //  Remove from favourities : Palamkubura //error
 router.delete('/:id/favourites/:fid', UserController.deleteFavourites);

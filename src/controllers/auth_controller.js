@@ -120,20 +120,24 @@ const accessToken = async (req, res) => {
 
 }
 const s3SecureUrl = async (req, res) => {
-    aws.config = new aws.Config({
-        accessKeyId: process.env.ACCESS_KEY_ID,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY,
-        region: process.env.REGION,
-        signatureVersion: process.env.SIGNATURE_VERSION
-    });
-    const s3 = new aws.S3();
 
-    const image_name = jwt.sign(Date.now(), process.env.JWT_SECRET_KEY);
-    const params = ({
+    let accessKeyId = process.env.ACCESS_KEY_ID;
+    let secretAccessKey = process.env.SECRET_ACCESS_KEY;
+    let region = process.env.REGION;
+    let signatureVersion = process.env.SIGNATURE_VERSION;
+    let apiVersion = '2006-03-01';
+
+    const s3 = new aws.S3({ region, accessKeyId, secretAccessKey, signatureVersion, apiVersion });
+
+    // const image_name = jwt.sign(Date.now(), process.env.JWT_SECRET_KEY);
+    const params = {
         Bucket: process.env.BUCKET_NAME,
-        Key: image_name
-    })
+        Key: 'testKey',
+        Expires: 60,
+    }
+    console.log(params);
     const uploadUrl = await s3.getSignedUrlPromise('putObject', params);
+    console.log(uploadUrl)
     res.status(200).send({
         statusCode: 200,
         message: 'OK',
