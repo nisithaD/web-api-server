@@ -2,6 +2,7 @@ const Restaurant = require('../models/restaurant');
 const { errorLogger, accessLogger } = require('../helper.util');
 const mongoose = require('mongoose');
 
+
 // GET /restaurant : Rumesh
 const getAllRestaurant = async (req, res) => {
     accessLogger.info(req.originalUrl);
@@ -211,11 +212,11 @@ const updateRestaurant = async (req, res) => {
     let id = req.params.id;
     let restaurant = await Restaurant.findById(id);
     if (restaurant) {
-        restaurant.name = req.body.name;
+        restaurant.name = req.user.isAdmin? req.body.name : restaurant.name;
         restaurant.rating = req.body.rating;
-        restaurant.address = req.body.address;
-        restaurant.display_image = req.body.display_image;
-        if (req.body.foods && req.body.foods.length > 0) {
+        restaurant.address = req.user.isAdmin? req.body.address: restaurant.address;
+        restaurant.display_image = req.user.isAdmin? req.body.display_image : restaurant.display_image;
+        if (req.body.foods && req.body.foods.length > 0 && req.user.isAdmin) {
             let foods = [];
             for (let itm in req.body.foods) {
                 foods.push({
@@ -228,13 +229,12 @@ const updateRestaurant = async (req, res) => {
             }
             restaurant.foods = [...restaurant.foods, ...foods];
         }
-        if (req.body.location) {
+        if (req.body.location && req.user.isAdmin) {
 
             restaurant.location = {
                 lat: req.body.location.lat,
                 lng: req.body.location.lng
             }
-
         }
         let err = restaurant.validateSync();
         if (err) {
