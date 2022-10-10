@@ -22,7 +22,7 @@ router.post('/', verifyToken, isAdmin, RestaurantController.createRestaurant);
 router.post('/:id/foods', verifyToken, isAdmin, RestaurantController.addFoods);
 
 // Update a Restaurant
-router.put('/:id', verifyToken, isAdmin, RestaurantController.updateRestaurant);
+router.put('/:id', verifyToken, RestaurantController.updateRestaurant);
 // Update a specific Food Item in a restaurant
 router.put('/:id/foods/:fid', verifyToken, RestaurantController.updateSingleFood);
 // Update location of a restaurant
