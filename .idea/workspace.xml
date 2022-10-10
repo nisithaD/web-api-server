@@ -4,7 +4,6 @@
     <list default="true" id="8ca55322-5228-4227-992f-2fa5a1bd5aef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/access.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/access.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/user_controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/user_controller.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +52,7 @@
       <updated>1663300095054</updated>
       <workItem from="1663300096267" duration="826000" />
       <workItem from="1663563626490" duration="1747000" />
-      <workItem from="1665401542524" duration="1414000" />
+      <workItem from="1665401542524" duration="2659000" />
     </task>
     <servers />
   </component>

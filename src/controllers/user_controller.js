@@ -174,7 +174,7 @@ const addToCart = async (req, res) => {
         if (index !== -1) {
             res.status(303).send({
                 statusCode: 303,  // https://www.rfc-editor.org/rfc/rfc7231#section-4.3.3
-                message: "Item Already Exists"
+                message: "Item already exists in the cart"
             })
         } else {
             try {
@@ -192,16 +192,16 @@ const addToCart = async (req, res) => {
                     })
                 } else {
                     await user.save();
-                    res.status(201).send({
-                        statusCode: 201,
-                        message: "OK",
+                    res.status(200).send({
+                        statusCode: 200,
+                        message: "Successfully added to the cart",
                         data: user
                     })
                 }
             } catch (e) {
                 res.status(500).send({
                     statusCode: 500,
-                    message: "Something Went worng. Please try again later"
+                    message: "Something Went wrong. Please try again later"
                 })
                 errorLogger.debug(e.message);
             }
