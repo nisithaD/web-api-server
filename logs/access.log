@@ -517,3 +517,13 @@
 2022-10-09T20:57:37.965Z [Access log] info: /api/restaurants/63267b69a3ffaae0b01aee2e/foods/
 2022-10-09T20:59:09.221Z [Access log] info: /api/restaurants/63267b69a3ffaae0b01aee2e/foods/632c86b4b4b4565222fdbe2f
 2022-10-09T21:00:18.025Z [Access log] info: /api/restaurants/63267b69a3ffaae0b01aee2e/foods/6343361daea35cff3abb75a6
+2022-10-10T02:57:13.271Z [Access log] info: /api/users/%7Bid%7D
+2022-10-10T03:45:27.022Z [Access log] info: /api/auth/login
+2022-10-10T03:45:44.205Z [Access log] info: /api/auth/login
+2022-10-10T03:46:40.118Z [Access log] info: /api/auth/login
+2022-10-10T03:47:43.166Z [Access log] info: /api/auth/login
+2022-10-10T03:56:10.019Z [Access log] info: /api/restaurants/
+2022-10-10T04:06:10.685Z [Access log] info: /api/auth/login
+2022-10-10T04:06:30.092Z [Access log] info: /api/auth/login
+2022-10-10T05:00:44.861Z [Access log] info: /api/restaurants/%7Bid%7D/foods
+2022-10-10T05:05:26.695Z [Access log] info: /api/restaurants/%7Bid%7D/foods

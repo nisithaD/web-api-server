@@ -70,7 +70,15 @@ app.use(express.json());
  *      '404':
  *        description: Not found
  * 
+ * 
  * /api/restaurants/{id}:
+ *  parameters:
+ *  - in: path
+ *  name: id
+ *  schema:
+ *  type: string
+ *  required: true
+ *  description: The restaurant id
  *  get:
  *    description: Get a specific restaurant
  *    responses:
@@ -81,6 +89,7 @@ app.use(express.json());
  *      '404':
  *        description: Not found
  * 
+ * 
  * /api/restaurants/{id}/foods:
  *  get:
  *    description: Get all foods of a specific restaurant
@@ -89,6 +98,62 @@ app.use(express.json());
  *        description: A successful response
  *      '500':
  *        description: Internal server error
+ * 
+ * 
+ * /api/restaurants/{id}/location:
+ *  get:
+ *    description: Get location of a specific restaurant
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * 
+ * /api/restaurants:post:
+ *    description: Create a new restaurant
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':  
+ *        description: Internal server error
+ * 
+ * 
+ * /api/restaurants/{id}/foods:post:
+ *  post:
+ *   description: Add a new food to a specific restaurant
+ *   responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * 
+ * /api/restaurants/{id}:put:
+ *   description: Update a specific restaurant
+ *   responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * 
+ * /api/restaurants/{id}/foods/{fid}:put:
+ *  description: Update a specific food item of a specific restaurant
+ *  responses:
+ *   '200':
+ *     description: A successful response
+ *   '500':
+ *     description: Internal server error
+ * 
+ * 
+ * /api/restaurants/{id}/location:put:
+ *    description: Update location of a specific restaurant
+ *    responses:
+ *       '200':
+ *         description: A successful response
+ *       '500':
+ *         description: Internal server error
  */
 app.use('/api/restaurants', restaurantRoute);
 
@@ -137,13 +202,115 @@ app.use('/api/restaurants', restaurantRoute);
  *      description: Internal server error
  *    '404':
  *      description: Not found 
+ * 
+ * /api/users:
+ *  post:
+ *    description: Create a new user
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error   
  * */
 app.use('/api/users', userRoute);
 
-//TODO : add swagger documentation
+/**
+ * @swagger
+ * /api/auth/login:
+ *  post:
+ *    description: Login to the system
+ *    parameters:
+ *      - in: body
+  *        email: nisithaD@gmail.com
+  *        password: Password@123
+  *        required: true
+ *        schema:
+ *          type: object
+ *        properties: 
+ *          email:
+ *           type: string
+ *          password:
+ *           type: string
+ *        example:
+ *          email:nisithaD@gmail.com
+ *          password:Password@123 
+ *    responses:
+ *      '200': 
+ *       description: A successful response
+ * 
+ * /api/auth/register:
+ *  post:
+ *    description: Register to the system
+ *    parameters:
+ *      - in: body
+ *        email: nisithaD@gmail.com
+ *        password: Password@123
+ *        address: 123, Colombo
+ *        phone: 0712345678
+ *        isAdmin: false
+ *        required: true
+ *        schema:
+ *          type: object
+ *        properties: 
+ *          email:
+ *           type: string
+ *          password:
+ *           type: string
+ *        example:
+ *          email:nisithaD@gmail.com
+ *          password:Password@123 
+ *    responses:
+ *      '200': 
+ *       description: A successful response
+ * 
+ * */        
 app.use('/api/auth', authRouter);
 
-//TODO : add swagger documentation
+/**
+ * @swagger
+ * /api/orders/:
+ *  get:
+ *    description: Get all orders
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * /api/orders/{id}:
+ *  get:
+ *    description: Get a specific order
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * /api/orders:
+ *  post:
+ *    description: Create a new order
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * /api/orders/{id}:put:
+ *   description: Update a specific order
+ *   responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * 
+ * /api/orders/{id}:delete:
+ *   description: Delete a specific order
+ *   responses:
+ *      '200':
+ *        description: A successful response
+ *      '500':
+ *        description: Internal server error
+ * */
 app.use('/api/orders', orderRoute);
 
 
