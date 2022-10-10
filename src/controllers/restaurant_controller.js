@@ -1,5 +1,5 @@
 const Restaurant = require('../models/restaurant');
-const { errorLogger,accessLogger} = require('../helper.util');
+const { errorLogger, accessLogger } = require('../helper.util');
 const mongoose = require('mongoose');
 
 // GET /restaurant : Rumesh
@@ -106,6 +106,7 @@ const createRestaurant = async (req, res) => {
         }
         restaurant.foods = foods;
     }
+
     if (req.body.location && req.body.location.lat && req.body.location.lng) {
 
         restaurant.location = {
@@ -290,11 +291,11 @@ const updateSingleFood = async (req, res) => {
             })
         } else {
             restaurant.foods[index] = {
-                name: req.body.name,
-                description: req.body.description,
-                price: req.body.price,
+                name: req.user.isAdmin ? req.body.name : restaurant.foods[index].name, // Few attribute modifications allowed by admin
+                description: req.user.isAdmin ? req.body.description : restaurant.foods[index].description,
+                price: req.user.isAdmin ? req.body.price : restaurant.foods[index].price,
                 rating: req.body.rating,
-                display_image: req.body.display_image,
+                display_image: req.user.isAdmin ? req.body.display_image : restaurant.foods[index].display_image,
             }
             let err = restaurant.validateSync();
             if (err) {

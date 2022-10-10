@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const router = require('../routes/user');
-const { errorLogger,accessLogger } = require('../helper.util');
+const { errorLogger, accessLogger } = require('../helper.util');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -99,21 +99,21 @@ const create = async (req, res) => {
         address: req.body.address,
         email: req.body.email,
         phone: req.body.phone,
-        isAdmin: req.body.isAdmin,
+        isAdmin: rq.user.isAdmin ? req.body.isAdmin : false,
         password: req.body.password,
-        confirmPassword : req.body.confirmPassword
+        confirmPassword: req.body.confirmPassword
     }
-    
-    if(args.password !== args.confirmPassword){
-    res.status(402).send({
-            statusCode: 402, 
+
+    if (args.password !== args.confirmPassword) {
+        res.status(402).send({
+            statusCode: 402,
             message: `Password and confirm password mismatch`
         })
         return;
     }
     let salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND));
     args.password = await bcrypt.hash(args.password, salt);
-    
+
     // Check Email exists
     let existingUser = await User.findOne({ email: args.email });
     if (existingUser) {
@@ -220,15 +220,27 @@ const addToCart = async (req, res) => {
 
 // Update A user : Nuwan
 const updateUser = async (req, res) => {
+    console.log(req.user);
     accessLogger.info(req.originalUrl);
     let id = req.params.id;
     let user = await User.findById(id);
+
+    if (req.body.confirmPassword !== req.body.password) {
+        res.status(402).send({
+            statusCode: 402,
+            message: `Password and confirm password mismatch`
+        })
+        return;
+    }
+    let salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND));
+    let encryptedPassword = await bcrypt.hash(req.body.password, salt);
     if (user) {
         user.name = req.body.name;
         user.email = req.body.email;
-        user.password = req.body.password;
+        user.password = encryptedPassword;
         user.address = req.body.address;
         user.phone = req.body.phone;
+        user.isAdmin = req.user.isAdmin ? req.body.isAdmin : user.isAdmin;
 
         let err = user.validateSync();
         try {
@@ -459,11 +471,11 @@ const deleteFavourites = async (req, res) => {
     if (user) {
         // check the favourites exists
         // If exists remove
-        let fav = user.favourites.findIndex((x)=>{
+        let fav = user.favourites.findIndex((x) => {
             return x.equals(mongoose.Types.ObjectId(fid))
         })
         if (user.favourites[fav]) {
-            user.favourites.splice(fav,1);
+            user.favourites.splice(fav, 1);
             await user.save();
             res.status(200).send({
                 statusCode: 200,

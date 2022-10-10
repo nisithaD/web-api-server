@@ -2,7 +2,8 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { errorLogger,accessLogger} = require('../helper.util');
+const { errorLogger, accessLogger } = require('../helper.util');
+const aws = require('aws-sdk');
 
 const login = async (req, res) => {
     accessLogger.info(req.originalUrl);
@@ -10,15 +11,15 @@ const login = async (req, res) => {
     const password = req.body.password;
     let user = await User.findOne({ email: email });
     if (user) {
-    if(!user.password){
-        // This  means user has create account using  Google Auth,
-        // So send a error message
-         res.status(404).send({
+        if (!user.password) {
+            // This  means user has create account using  Google Auth,
+            // So send a error message
+            res.status(404).send({
                 statusCode: 404,
                 message: "Email or password is Invalid"
-           })
-           return;
-   } 
+            })
+            return;
+        }
         if (await bcrypt.compare(password, user.password)) {
             let data = {
                 "_id": user._id,
@@ -75,13 +76,14 @@ const successRedirect = (req, res) => {
     }
 
     const token = jwt.sign(data, jwtSecretKey);
-    if (req.query.redirect_to) {
+    if (req.query.redirect_to && req.query.email) {
         let redirect = req.query.redirect_to;
+        let email = req.query.email;
         req.session.query = null;
         // res.redirect(redirect + "?code=" + token);
-        res.redirect(301, redirect + '?code=' + token);
+        res.redirect(301, redirect + '?code=' + token + '&email=' + email);
     } else {
-        res.redirect('/api/auth/grant?code=' + token);
+        res.redirect('/api/auth/grant?code=' + token + '&email=' + email);
     }
 }
 const grant = (req, res, next) => {
@@ -117,6 +119,31 @@ const accessToken = async (req, res) => {
     }
 
 }
+const s3SecureUrl = async (req, res) => {
+
+    let accessKeyId = process.env.ACCESS_KEY_ID;
+    let secretAccessKey = process.env.SECRET_ACCESS_KEY;
+    let region = process.env.REGION;
+    let signatureVersion = process.env.SIGNATURE_VERSION;
+    let apiVersion = '2006-03-01';
+
+    const s3 = new aws.S3({ region, accessKeyId, secretAccessKey, signatureVersion, apiVersion });
+
+    // const image_name = jwt.sign(Date.now(), process.env.JWT_SECRET_KEY);
+    const params = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: 'testKey',
+        Expires: 60,
+    }
+    console.log(params);
+    const uploadUrl = await s3.getSignedUrlPromise('putObject', params);
+    console.log(uploadUrl)
+    res.status(200).send({
+        statusCode: 200,
+        message: 'OK',
+        url: uploadUrl
+    })
+}
 
 module.exports = {
     login: login,
@@ -125,6 +152,7 @@ module.exports = {
     successRedirect: successRedirect,
     logout: logout,
     grant: grant,
-    accessToken: accessToken
+    accessToken: accessToken,
+    secureUrl: s3SecureUrl
 
 }

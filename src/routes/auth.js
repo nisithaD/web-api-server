@@ -18,5 +18,7 @@ router.get('/logout', AuthController.logout);
 router.get('/grant', isLoggedIn, AuthController.grant);
 // Access token : Nuwan
 router.get('/access', AuthController.accessToken);
+// get secure url
+router.get('/secure-url', AuthController.secureUrl);
 
 module.exports = router;
