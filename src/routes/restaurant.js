@@ -12,6 +12,10 @@ router.get('/:id/foods', RestaurantController.getRestaurantFood);
 // Get Specific Restaurant Location
 router.get('/:id/location', RestaurantController.getLocation);
 
+
+// Get Specific Restaurant Specific Food: Nisitha added for testings
+// router.get('/:id/foods/:fid', RestaurantController.getRestaurantSingleFood);
+
 // Create a Restaurant
 router.post('/', verifyToken, isAdmin, RestaurantController.createRestaurant);
 // Add Food to specific Restaurant
