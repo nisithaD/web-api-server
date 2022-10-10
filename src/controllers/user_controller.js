@@ -161,7 +161,7 @@ const addToCart = async (req, res) => {
     let user = await User.findById(id);
     if (user) {
         let args = {
-            food: req.body.food,
+            food: req.body.food.food,
             outlet: req.body.outlet,
             price: req.body.price,
             qty: req.body.qty,
@@ -182,7 +182,6 @@ const addToCart = async (req, res) => {
                 let err = user.validateSync();
                 if (err) {
                     let errors = {};
-
                     Object.keys(err.errors).forEach((key) => {
                         errors[key] = err.errors[key].message;
                     });
@@ -207,8 +206,7 @@ const addToCart = async (req, res) => {
                 errorLogger.debug(e.message);
             }
         }
-
-
+        
     } else {
         res.status(404).send({
             statusCode: 404,
