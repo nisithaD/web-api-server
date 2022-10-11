@@ -1367,3 +1367,12 @@
 2022-10-10T18:14:09.002Z [Access log] info: /api/restaurants
 2022-10-10T18:14:25.473Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
 2022-10-10T18:14:25.670Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
+2022-10-11T12:52:23.466Z [Access log] info: /api/auth/login
+2022-10-11T12:52:23.810Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8
+2022-10-11T12:52:26.347Z [Access log] info: /api/restaurants
+2022-10-11T12:52:27.554Z [Access log] info: /api/restaurants
+2022-10-11T12:52:39.801Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
+2022-10-11T12:52:43.233Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
+2022-10-11T12:52:43.508Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
+2022-10-11T12:53:29.828Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
+2022-10-11T12:53:58.826Z [Access log] info: /api/users/633f8ab7d67cb6ee2a586ec8/cart
