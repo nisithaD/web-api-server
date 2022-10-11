@@ -546,7 +546,7 @@ const deleteCartItem = async (req, res) => {
             let index = user.cart.findIndex((x) => {
                 return x._id.equals(cartItem);
             })
-            if (index == -1) {
+            if (index === -1) {
                 res.status(404).send({
                     statusCode: 404,
                     message: "Cart item not exists",
@@ -562,7 +562,7 @@ const deleteCartItem = async (req, res) => {
         } catch (e) {
             res.status(500).send({
                 statusCode: 500,
-                message: "Something Went worng. Please try again later"
+                message: "Something Went wrong. Please try again later"
             })
             errorLogger.debug(e.message);
         }
