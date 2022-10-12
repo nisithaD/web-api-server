@@ -6,7 +6,7 @@ const { errorLogger, accessLogger } = require('../helper.util');
 const aws = require('aws-sdk');
 
 const login = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     const email = req.body.email;
     const password = req.body.password;
     let user = await User.findOne({ email: email });
@@ -49,7 +49,7 @@ const login = async (req, res) => {
 
 }
 const logout = (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     req.logout(function (err) {
         if (err) { return next(err); }
         req.session.destroy();

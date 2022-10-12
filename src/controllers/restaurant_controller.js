@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // GET /restaurant : Rumesh
 const getAllRestaurant = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     const allRestaurants = await Restaurant.find();
     if (allRestaurants) {
         res.status(200).send({
@@ -26,7 +26,7 @@ const getAllRestaurant = async (req, res) => {
 // GET/ Resturent / Foods : Rumesh
 
 const RestaurantFood = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     const allRestaurantFood = await Restaurant.findById(id);
 
@@ -48,7 +48,7 @@ const RestaurantFood = async (req, res) => {
 
 // GET /restaurant/:id : PalamKubura
 const getRestaurantById = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+    
     const restaurant = await Restaurant.findById(req.params.id);
     if (restaurant) {
         res.status(200).send({
@@ -67,7 +67,7 @@ const getRestaurantById = async (req, res) => {
 }
 
 const getLocation = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+    
     let id = req.params.id;
     let restaurant = await Restaurant.findById(id);
     if (restaurant) {
@@ -86,7 +86,7 @@ const getLocation = async (req, res) => {
 }
 
 const createRestaurant = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let restaurant = new Restaurant({
         name: req.body.name,
         rating: req.body.rating,
@@ -148,7 +148,7 @@ const createRestaurant = async (req, res) => {
 }
 
 const addFoods = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let restaurant = await Restaurant.findById(id);
     if (restaurant) {
@@ -208,7 +208,7 @@ const addFoods = async (req, res) => {
     }
 }
 const updateRestaurant = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let restaurant = await Restaurant.findById(id);
     if (restaurant) {
@@ -310,7 +310,7 @@ const getRestaurantSingleFood = async (req, res) => {
 
 
 const updateSingleFood = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let resId = req.params.id;
     let foodId = req.params.fid;
 
@@ -375,7 +375,7 @@ const updateSingleFood = async (req, res) => {
 }
 
 const updateLocation = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+    
     let id = req.params.id;
     let restaurant = await Restaurant.findById(id);
     if (restaurant) {
@@ -423,7 +423,7 @@ const updateLocation = async (req, res) => {
 }
 
 const deleteRestaurant = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let restaurant = await Restaurant.findById(id);
     if (restaurant) {
@@ -453,7 +453,7 @@ const deleteRestaurant = async (req, res) => {
 }
 
 const deleteFood = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let resId = req.params.id;
     let foodId = req.params.fid;
 
