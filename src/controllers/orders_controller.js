@@ -48,7 +48,7 @@ exports.get_users_orders = async (req, res) => {
 }
 
 exports.get_all_orders = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+
     try {
         //get orders
         const orders = await Order.find().sort({date: -1});
@@ -62,7 +62,7 @@ exports.get_all_orders = async (req, res) => {
             statusCode: 500,
             message: "Something Went wrong. Please try again later"
         })
-        errorLogger.debug(e.message);
+        errorLogger.debug(err.message);
     }
 }
 
