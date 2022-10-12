@@ -40,11 +40,30 @@ exports.get_users_orders = async (req, res) => {
     //get auth user
     const user = await User.findById(req.params.id);
     //get orders is deleted=false
-    const orders = await Order.find({user_id: user._id, is_deleted: false});
+    const orders = await Order.find({user_id: user._id, is_deleted: false}).sort({date: -1});
     //return response
     res.status(200).json({
         orders
     });
+}
+
+exports.get_all_orders = async (req, res) => {
+    accessLogger.info(req.originalUrl);
+    try {
+        //get orders
+        const orders = await Order.find().sort({date: -1});
+        //return response
+        res.status(200).json({
+            success: true,
+            orders
+        });
+    }catch (err){
+        res.status(500).send({
+            statusCode: 500,
+            message: "Something Went wrong. Please try again later"
+        })
+        errorLogger.debug(e.message);
+    }
 }
 
 //get order

@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const router = require('../routes/user');
 const { errorLogger, accessLogger } = require('../helper.util');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -56,13 +55,14 @@ const getWishlist = async (req, res) => {
 const getcart = async (req, res) => {
     accessLogger.info(req.originalUrl);
     let id = req.params.id;
-    // Checkif user exists
+    // Check if user exists
     let user = await User.findById(id);
-    if (user) {
+    const cart = user.cart;
+    if (cart) {
         res.status(200).send({
             statusCode: 200,
             message: "OK",
-            data: user.cart
+            data: cart
         })
     } else {
         res.status(404).send({
@@ -206,7 +206,7 @@ const addToCart = async (req, res) => {
                 errorLogger.debug(e.message);
             }
         }
-        
+
     } else {
         res.status(404).send({
             statusCode: 404,
