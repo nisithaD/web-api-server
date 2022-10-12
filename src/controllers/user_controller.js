@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 // Get All Users : Nuwan
 const index = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let users = await User.find();
     res.status(200).send({
         statusCode: 200,
@@ -16,7 +16,7 @@ const index = async (req, res) => {
 }
 // Get Single User : Nuwan
 const find = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let user = await User.findById(id);
     if (user) {
@@ -35,7 +35,7 @@ const find = async (req, res) => {
 }
 // Get Wishlist : Palamkubura
 const getWishlist = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     // Checkif user exists
     let user = await User.findById(id);
@@ -54,7 +54,7 @@ const getWishlist = async (req, res) => {
 }
 // Get Cart : Palamkubura
 const getcart = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     // Checkif user exists
     let user = await User.findById(id);
@@ -73,7 +73,7 @@ const getcart = async (req, res) => {
 }
 // Get Favourites : Palamkubura
 const getFavourites = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     // Checkif user exists
     let user = await User.findById(id);
@@ -93,7 +93,7 @@ const getFavourites = async (req, res) => {
 
 // Create User: Nuwan
 const create = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let args = {
         name: req.body.name,
         address: req.body.address,
@@ -155,7 +155,7 @@ const create = async (req, res) => {
 }
 // Add to Cart  : Nuwan
 const addToCart = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     // Checkfor the existsance
     let user = await User.findById(id);
@@ -218,8 +218,7 @@ const addToCart = async (req, res) => {
 
 // Update A user : Nuwan
 const updateUser = async (req, res) => {
-    console.log(req.user);
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let user = await User.findById(id);
 
@@ -278,7 +277,7 @@ const updateUser = async (req, res) => {
 }
 // Update Existing Cart Item : Nuwan
 const updateCart = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let userId = req.params.id;
     let cartItem = req.params.iid;
 
@@ -338,7 +337,7 @@ const updateCart = async (req, res) => {
 
 // Add to Favourites  : palamakumbura
 const addFavourites = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     // Checkfor the existsance
 
@@ -400,7 +399,7 @@ const addFavourites = async (req, res) => {
 
 // Add to wishlist  : Palamakumbura
 const addToWishlist = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     // Checkfor the existsance
 
@@ -461,7 +460,7 @@ const addToWishlist = async (req, res) => {
 
 // Remove FromFavourites : Palamkubura
 const deleteFavourites = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let fid = req.params.fid;
     // Checkif user exists
@@ -498,7 +497,7 @@ const deleteFavourites = async (req, res) => {
 
 // Delete wishlist Item : Palamakumbura
 const deleteWishlist = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let user = await User.findById(id);
     let wishlistId = req.params.iid;
@@ -537,7 +536,7 @@ const deleteWishlist = async (req, res) => {
 
 // Delete Cart Item : Nuwan
 const deleteCartItem = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let user = await User.findById(id);
     let cartItem = req.params.iid;
@@ -575,7 +574,7 @@ const deleteCartItem = async (req, res) => {
 }
 // Delete User : Nuwan
 const deleteUser = async (req, res) => {
-    accessLogger.info(req.originalUrl);
+   
     let id = req.params.id;
     let user = await User.findById(id);
     if (user) {

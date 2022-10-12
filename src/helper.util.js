@@ -8,10 +8,7 @@ const customFormat = printf(({ level, message, label, timestamp }) => {
     return `${timestamp} [${label}] ${level}: ${message}`;
 });
 
-//Using the printf format access.log.:Rumesh
-const accessLogFormat=printf(({level, message, label, timestamp }) => {
-    return `${timestamp} [${label}] ${level}: ${message}`;
-});
+
 
 //error.log.:Nuwan
 const logger = createLogger({
@@ -26,19 +23,9 @@ const logger = createLogger({
     ],
 });
 
-//access.log:rumesh
-const timelogger=createLogger({
-    level:"info",
-    format:combine(label({label:'Access log'}),timestamp(),accessLogFormat),
 
-    transports:[
-        new transports.File({
-           filename:"logs/access.log" 
-        })
-    ]
-})
 
 module.exports = {
-    errorLogger: logger,
-    accessLogger:timelogger
+    errorLogger: logger
+   
 }

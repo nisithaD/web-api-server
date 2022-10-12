@@ -32,8 +32,7 @@ const restaurantRoute = require('./src/routes/restaurant');
 const userRoute = require('./src/routes/user');
 const authRouter = require('./src/routes/auth');
 const orderRoute = require('./src/routes/order');
-
-
+const {accessLogger} = require('./src/middlewares/accessLog');
 /** App Configurations */
 const app = express();
 const cors = require("cors");
@@ -54,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.json());
-
+app.use(accessLogger);
 
 /** Routes */
 /**
