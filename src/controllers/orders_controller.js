@@ -35,15 +35,14 @@ exports.create_order = async (req, res) => {
 }
 
 //get user's all orders
-exports.get_all_orders = async (req, res) => {
+exports.get_users_orders = async (req, res) => {
     accessLogger.info(req.originalUrl);
     //get auth user
-    const user = await User.findById(req.user._id);
-    //get orders
-    const orders = await Order.find({user_id: user._id});
+    const user = await User.findById(req.params.id);
+    //get orders is deleted=false
+    const orders = await Order.find({user_id: user._id, is_deleted: false});
     //return response
     res.status(200).json({
-        success: true,
         orders
     });
 }
@@ -90,35 +89,40 @@ exports.update_order = async (req, res) => {
 exports.delete_order = async (req, res) => {
     accessLogger.info(req.originalUrl);
     try {
-        const user = await User.findById(req.user._id);
+        // const user = await User.findById(req.params.uid);
         //get order
         const order = await Order.findById(req.params.id);
+        //check if order exists
+        if (!order) {
+            return res.status(400).json({error: 'Order not found'});
+        }
+        // if (order.user_id != user._id) {
+        //     return res.status(400).json({error: 'You are not authorized to delete this order'});
+        // }
+
+        //check order completed
+        if (order.is_completed) {
+            return res.status(400).json({
+                message: 'You can not delete completed orders!'
+            });
+        }
+        //delete order
+        order.is_deleted = true;
+        await order.save();
+
+        //return response
+        res.status(200).json({
+            success: true,
+            message: 'Order deleted successfully'
+        });
+
     } catch (err) {
         res.status(500).send({
             statusCode: 500,
-            message: "Something Went worng. Please try again later"
+            message: "Something Went wrong. Please try again later"
         })
         errorLogger.debug(e.message);
     }
-    //check if order exists
-    if (!order) {
-        return res.status(400).json({error: 'Order not found'});
-    }
-
-    if (order.user_id != user._id) {
-        return res.status(400).json({error: 'You are not authorized to delete this order'});
-    }
-    //check order completed
-    if (order.is_completed) {
-        return res.status(400).json({error: 'You can not delete completed order'});
-    }
-    //delete order
-    await order.remove();
-    //return response
-    res.status(200).json({
-        success: true,
-        message: 'Order deleted successfully'
-    });
 }
 
 //get restaurant's orders

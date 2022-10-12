@@ -407,7 +407,7 @@ const updateLocation = async (req, res) => {
             } catch (e) {
                 res.status(500).send({
                     statusCode: 500,
-                    message: "Something Went worng. Please try again later"
+                    message: "Something Went Wrong. Please try again later"
                 })
                 errorLogger.debug(e.message);
             }
