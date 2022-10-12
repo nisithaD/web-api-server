@@ -275,40 +275,38 @@ const updateRestaurant = async (req, res) => {
 }
 
 
-//Nisitha added for testings
-// const getRestaurantSingleFood = async (req, res) => {
-//     accessLogger.info(req.originalUrl);
-//     let id = req.params.id;
-//     let foodId = req.params.fid;
-//     let restaurant = await Restaurant.findById(id);
-//     if (restaurant) {
-//         let foods = restaurant.foods;
-//         console.log(foods);
-//         let food = foods.find((itm) => {
-//             console.log(itm._id);
-//             return itm._id === foodId;
-//         });
-//         if (food) {
-//             res.status(200).send({
-//                 statusCode: 200,
-//                 message: "OK",
-//                 data: food
-//             });
-//         } else {
-//             res.status(404).send({
-//                 statusCode: 404,
-//                 message: "Food id:" + foodId + " Not Found",
-//                 data: []
-//             });
-//         }
-//     } else {
-//         res.status(404).send({
-//             statusCode: 404,
-//             message: "Restaurant id:" + req.params.id + " Not Found",
-//             data: []
-//         });
-//     }
-// }
+// Nisitha added
+const getRestaurantSingleFood = async (req, res) => {
+    accessLogger.info(req.originalUrl);
+    let id = req.params.id;
+    let foodId = req.params.fid;
+    let restaurant = await Restaurant.findById(id);
+    if (restaurant) {
+        let foods = restaurant.foods;
+        let food = foods.find((itm) => {
+            return itm._id.toString() === foodId.toString();
+        });
+        if (food) {
+            res.status(200).send({
+                statusCode: 200,
+                message: "OK",
+                data: food
+            });
+        } else {
+            res.status(404).send({
+                statusCode: 404,
+                message: "Food id:" + foodId + " Not Found",
+                data: []
+            });
+        }
+    } else {
+        res.status(404).send({
+            statusCode: 404,
+            message: "Restaurant id:" + req.params.id + " Not Found",
+            data: []
+        });
+    }
+}
 
 
 const updateSingleFood = async (req, res) => {
@@ -499,6 +497,6 @@ module.exports = {
     updateLocation: updateLocation,
     deleteRestaurant: deleteRestaurant,
     deleteFood: deleteFood,
-    // getRestaurantSingleFood: getRestaurantSingleFood, // Not used yet.Added for future use
+    getRestaurantSingleFood: getRestaurantSingleFood,
 }
 

@@ -1,57 +1,36 @@
 const Restaurant = require('../models/restaurant');
 const User = require('../models/user');
 const Order = require('../models/order');
-const { accessLogger} = require('../helper.util');
+const {accessLogger,errorLogger} = require('../helper.util');
 
 //create order
 exports.create_order = async (req, res) => {
     accessLogger.info(req.originalUrl);
-    //get auth user
-    try{
-        const user = await User.findById(req.user._id);
-        //get restaurant
-        const restaurant = await Restaurant.findById(req.body.restaurant_id);
-        //check if restaurant exists
-        if (!restaurant) {
-            return res.status(400).json({ error: 'Restaurant not found' });
-        }else{
-            //calculate restaurent items total
-            let total = 0;
-            req.body.items.forEach(item => {
-                //get item from restaurant
-                const restaurantItem = restaurant.items.find(restaurantItem => restaurantItem._id == item.item_id);
-                //check if item exists
-                if (!restaurantItem) {
-                    return res.status(400).json({ error: 'Item not found!' });
-                }else{
-                    //calculate total
-                    total += restaurantItem.price * item.quantity;
-                }
-            });
-        }
-    } catch (error) {
-        console.log(error);
-    }
-    try{
+    try {
         //create order
         const order = await Order.create({
-            user_id: user._id,
-            restaurant_id: req.body.restaurant_id,
-            items: req.body.items,
-            total: total
+            user_id: req.body.user_id,
+            items: req.body.foods,
+            total: req.body.total
         });
+
+        //find user
+        const user = await User.findById(req.body.user_id);
+        //clear cart
+        user.cart = [];
+        user.save();
         //return response
         res.status(200).json({
-            success: true,
+            statusCode: 200,
             message: 'Order created successfully',
             order
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             statusCode: 500,
             message: "Failed to create order. Please try again later"
         })
-        errorLogger.debug(e.message);
+        errorLogger.debug(err.message);
     }
 }
 
@@ -61,7 +40,7 @@ exports.get_all_orders = async (req, res) => {
     //get auth user
     const user = await User.findById(req.user._id);
     //get orders
-    const orders = await Order.find({ user_id: user._id });
+    const orders = await Order.find({user_id: user._id});
     //return response
     res.status(200).json({
         success: true,
@@ -76,7 +55,7 @@ exports.get_order = async (req, res) => {
     const order = await Order.findById(req.params.id);
     //check if order exists
     if (!order) {
-        return res.status(400).json({ error: 'Order not found' });
+        return res.status(400).json({error: 'Order not found'});
     }
     //return response
     res.status(200).json({
@@ -93,7 +72,7 @@ exports.update_order = async (req, res) => {
     const order = await Order.findById(req.params.id);
     //check if order exists
     if (!order) {
-        return res.status(400).json({ error: 'Order not found' });
+        return res.status(400).json({error: 'Order not found'});
     }
     //update order
     order.is_completed = req.body.is_completed;
@@ -110,11 +89,11 @@ exports.update_order = async (req, res) => {
 //delete order
 exports.delete_order = async (req, res) => {
     accessLogger.info(req.originalUrl);
-    try{
-        const user= await User.findById(req.user._id);
+    try {
+        const user = await User.findById(req.user._id);
         //get order
         const order = await Order.findById(req.params.id);
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             statusCode: 500,
             message: "Something Went worng. Please try again later"
@@ -123,15 +102,15 @@ exports.delete_order = async (req, res) => {
     }
     //check if order exists
     if (!order) {
-        return res.status(400).json({ error: 'Order not found' });
+        return res.status(400).json({error: 'Order not found'});
     }
 
-    if(order.user_id != user._id){
-        return res.status(400).json({ error: 'You are not authorized to delete this order' });
+    if (order.user_id != user._id) {
+        return res.status(400).json({error: 'You are not authorized to delete this order'});
     }
     //check order completed
     if (order.is_completed) {
-        return res.status(400).json({ error: 'You can not delete completed order' });
+        return res.status(400).json({error: 'You can not delete completed order'});
     }
     //delete order
     await order.remove();
@@ -149,10 +128,10 @@ exports.get_restaurant_orders = async (req, res) => {
     const restaurant = await Restaurant.findById(req.params.id);
     //check if restaurant exists
     if (!restaurant) {
-        return res.status(400).json({ error: 'Restaurant not found' });
+        return res.status(400).json({error: 'Restaurant not found'});
     }
     //get orders
-    const orders = await Order.find({ restaurant_id: restaurant._id });
+    const orders = await Order.find({restaurant_id: restaurant._id});
     //return response
     res.status(200).json({
         success: true,
@@ -167,11 +146,11 @@ exports.mark_as_completed = async (req, res) => {
     const order = await Order.findById(req.params.id);
     //check if order exists
     if (!order) {
-        return res.status(400).json({ error: 'Order not found' });
+        return res.status(400).json({error: 'Order not found'});
     }
     //check order completed
     if (order.is_completed) {
-        return res.status(400).json({ error: 'Order already completed' });
+        return res.status(400).json({error: 'Order already completed'});
     }
     //update order
     order.is_completed = true;

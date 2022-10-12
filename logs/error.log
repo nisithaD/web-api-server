@@ -35,3 +35,13 @@
   restaurant: '6337f51edabcfd6a0b1f6c84',
   price: 450
 }" (type Object) at path "food" because of "BSONTypeError"
+2022-10-12T12:00:14.449Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:00:20.363Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:00:55.577Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:01:14.929Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:01:50.620Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:02:55.564Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:03:31.104Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T13:39:29.314Z [500 server errors] debug: Order validation failed: restaurant_id: Path `restaurant_id` is required., user_id: Path `user_id` is required.
+2022-10-12T13:41:12.196Z [500 server errors] debug: Order validation failed: user_id: Path `user_id` is required.
+2022-10-12T13:42:16.983Z [500 server errors] debug: Order validation failed: user_id: Path `user_id` is required.
