@@ -48,7 +48,7 @@ exports.get_users_orders = async (req, res) => {
 }
 
 exports.get_all_orders = async (req, res) => {
-
+    accessLogger.info(req.originalUrl);
     try {
         //get orders
         const orders = await Order.find().sort({date: -1});
