@@ -51,8 +51,8 @@ const getWishlist = async (req, res) => {
         });
     }
 }
-// Get Cart : Palamkubura
-const getcart = async (req, res) => {
+// Get Cart : Nisitha
+const getCart = async (req, res) => {
    
     let id = req.params.id;
     // Check if user exists
@@ -609,7 +609,7 @@ module.exports = {
     addFavourites: addFavourites,
     addToWishlist: addToWishlist,
     getWishlist: getWishlist,
-    getcart: getcart,
+    getCart: getCart,
     getFavourites: getFavourites,
     deleteFavourites: deleteFavourites,
     deleteWishlist: deleteWishlist,

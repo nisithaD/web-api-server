@@ -7,7 +7,7 @@ router.get('/', verifyToken, isAdmin, UserController.all);
 //  Get specific User :Nuwan
 router.get('/:id', UserController.specific);
 //  Get User's Cart : Nuwan
-router.get('/:id/cart', UserController.getcart);
+router.get('/:id/cart', UserController.getCart);
 //  Get User's Wishlist : Palamkubura
 router.get('/:id/wishlist', UserController.getWishlist);
 // : Get User's Favourites : Palamkubura

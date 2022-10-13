@@ -4,8 +4,8 @@
     <list default="true" id="8ca55322-5228-4227-992f-2fa5a1bd5aef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/access.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/access.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/orders_controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/orders_controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/user_controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/user_controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +40,7 @@
     "app.teamhub.trackedBranches": "-146pl8m/dev,-146pl8m/developers,-146pl8m/master",
     "last_opened_file_path": "E:/NIBM/Projects/WEB API/server",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2021.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -56,7 +57,8 @@
       <workItem from="1665401542524" duration="8752000" />
       <workItem from="1665461980546" duration="80000" />
       <workItem from="1665492562891" duration="12270000" />
-      <workItem from="1665544217284" duration="39962000" />
+      <workItem from="1665544217284" duration="40044000" />
+      <workItem from="1665661476153" duration="5531000" />
     </task>
     <servers />
   </component>
