@@ -7,14 +7,14 @@ router.get('/', verifyToken, isAdmin, UserController.all);
 //  Get specific User :Nuwan
 router.get('/:id', UserController.specific);
 //  Get User's Cart : Nuwan
-router.get('/:id/cart', UserController.getCart);
+router.get('/:id/cart', verifyToken, isAdmin, UserController.getCart);
 //  Get User's Wishlist : Palamkubura
 router.get('/:id/wishlist', UserController.getWishlist);
 // : Get User's Favourites : Palamkubura
 router.get('/:id/favourites', UserController.getFavourites);
 
 //  Create User : Nuwan
-router.post('/', UserController.newUser);
+router.post('/', verifyToken, isAdmin, UserController.newUser);
 //  Add to Favourites : Palamakumbura
 router.post('/:id/favourites', UserController.addFavourites);
 //  Add to Cart : Nuwan
