@@ -1,67 +1,24 @@
 const router = require('express').Router();
-const passport = require('passport');
 const { isLoggedIn } = require('../middlewares/authenticator');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const UserController = require('../controllers/user_controller');
+const AuthController = require('../controllers/auth_controller');
 
-router.get('/login',
-    passport.authenticate('google', { scope: ['email', 'profile'] }
-    ));
-router.get('/callback',
-    passport.authenticate('google', {
-        successRedirect: '/api/auth/grant',
-        failureRedirect: '/api/auth/login'
-    })
-);
-router.get('/logout', (req, res) => {
-    req.logout(function (err) {
-        if (err) { return next(err); }
-        req.session.destroy();
-        res.send('goodbye')
-    });
+// User Login : Nuwan
+router.post('/login', AuthController.login);
+// User Registration : Nuwan
+router.post('/register', UserController.newUser);
 
-});
-
-router.get('/grant', isLoggedIn, (req, res, next) => {
-    // Grant a code toget user
-    let jwtSecretKey = process.env.JWT_SECRET_KEY;
-    console.log(req.user);
-    let data = {
-        id: req.user.id
-    }
-
-    const token = jwt.sign(data, jwtSecretKey);
-    res.send({ 'grantCode': token });
-});
-
-router.get('/access', async (req, res) => {
-
-    let email = req.query.email;
-    let grantCode = req.query.grantCode;
-    const verified = jwt.verify(grantCode, process.env.JWT_SECRET_KEY);
-    let user = await User.findOne({ 'email': email });
-    if (user && user.googleId === verified.id) {
-        let data = {
-            "_id": user._id,
-            "name": user.name,
-            "email": user.email,
-            "cretedAt": Date(),
-            "iat": Math.floor(Date.now() / 1000) + (60 * 60),
-        }
-        const token = jwt.sign(data, process.env.JWT_SECRET_KEY);
-        res.send({
-            statusCode: 200,
-            accessToken: token,
-            expires: data.exp
-        });
-
-    } else {
-        res.status(401).send({
-            statusCode: 401,
-            message: "Invalid Grant Code"
-        });
-    }
-
-});
+// Google oAuth login: Nuwan
+router.get('/google/login', AuthController.googleLogin);
+// Google OAuth callback : Nuwan
+router.get('/callback', AuthController.oAuthCallback, AuthController.successRedirect);
+// user Logout : Nuwan
+router.get('/logout', AuthController.logout);
+// provide the grant token for access token : Nuwan 
+router.get('/grant', isLoggedIn, AuthController.grant);
+// Access token : Nuwan
+router.get('/access', AuthController.accessToken);
+// get secure url
+router.get('/secure-url', AuthController.secureUrl);
 
 module.exports = router;

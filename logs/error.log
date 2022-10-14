@@ -1,0 +1,50 @@
+2022-09-29T14:43:19.925Z [500 server errors] debug: E11000 duplicate key error collection: taste-buds.users index: email_1 dup key: { email: "john@gmail.com" }
+2022-10-02T19:30:57.770Z [500 server errors] debug: Cast to ObjectId failed for value "{ outlet: '6339b7f02a394e7045ebf062' }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-02T20:19:25.447Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-02T20:20:16.188Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-10T06:52:39.742Z [500 server errors] debug: User validation failed: cart.0.food: Cast to ObjectId failed for value "{
+  id: 0,
+  name: 'Doule Chicken Delight ',
+  description: 'Omik specials',
+  food: '632c834c2ea0d5829a9aed99',
+  restaurant: '632bacc5a298c96850620e88',
+  price: 350
+}" (type Object) at path "food" because of "BSONTypeError"
+2022-10-10T06:53:09.979Z [500 server errors] debug: User validation failed: cart.0.food: Cast to ObjectId failed for value "{
+  id: 0,
+  name: 'Doule Chicken Delight ',
+  description: 'Omik specials',
+  food: '632c834c2ea0d5829a9aed99',
+  restaurant: '632bacc5a298c96850620e88',
+  price: 350
+}" (type Object) at path "food" because of "BSONTypeError"
+2022-10-10T07:06:36.217Z [500 server errors] debug: User validation failed: cart.0.outlet: Path `outlet` is required., cart.0.food: Path `food` is required.
+2022-10-10T07:06:58.958Z [500 server errors] debug: User validation failed: cart.0.outlet: Path `outlet` is required., cart.0.food: Path `food` is required.
+2022-10-10T07:18:30.578Z [500 server errors] debug: User validation failed: cart.0.food: Cast to ObjectId failed for value "{
+  id: 0,
+  name: 'Doule Chicken Delight ',
+  description: 'Omik specials',
+  food: '632c834c2ea0d5829a9aed99',
+  restaurant: '632bacc5a298c96850620e88',
+  price: 350
+}" (type Object) at path "food" because of "BSONTypeError"
+2022-10-10T07:18:56.060Z [500 server errors] debug: User validation failed: cart.0.food: Cast to ObjectId failed for value "{
+  name: 'BBQ (Chicken)',
+  description: 'Omik Special',
+  food: '6337f5b1612c4d158a2aafc8',
+  restaurant: '6337f51edabcfd6a0b1f6c84',
+  price: 450
+}" (type Object) at path "food" because of "BSONTypeError"
+2022-10-12T12:00:14.449Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:00:20.363Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:00:55.577Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:01:14.929Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:01:50.620Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:02:55.564Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T12:03:31.104Z [500 server errors] debug: Cannot read property 'remove' of null
+2022-10-12T13:39:29.314Z [500 server errors] debug: Order validation failed: restaurant_id: Path `restaurant_id` is required., user_id: Path `user_id` is required.
+2022-10-12T13:41:12.196Z [500 server errors] debug: Order validation failed: user_id: Path `user_id` is required.
+2022-10-12T13:42:16.983Z [500 server errors] debug: Order validation failed: user_id: Path `user_id` is required.
+2022-10-12T21:45:22.528Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-12T21:45:23.642Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"
+2022-10-12T21:45:28.126Z [500 server errors] debug: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "favourites" because of "BSONTypeError"

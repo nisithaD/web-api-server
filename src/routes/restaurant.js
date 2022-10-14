@@ -1,13 +1,38 @@
 var express = require('express');
 var router = express.Router();
-var restaurant_controller = require('../controllers/restaurant_controller');
-var { verifyToken } = require('../middlewares/authenticator');
+var RestaurantController = require('../controllers/restaurant_controller');
+var { verifyToken, isAdmin } = require('../middlewares/authenticator');
 
-router.get('/', verifyToken, restaurant_controller.get_all_restaurants);
-router.get('/:id', verifyToken, restaurant_controller.get_restaurant_by_id);
-router.post('/', verifyToken, restaurant_controller.create_restaurant);
-router.put('/:id', verifyToken, restaurant_controller.update_restaurant);
-router.delete('/:id', verifyToken, restaurant_controller.delete_restaurant);
+
+// Get All restaurants : Rumesh 
+router.get('/',  RestaurantController.getAllRestaurants);
+// Specific Restaurant : Palamkubura
+router.get('/:id', RestaurantController.getById);
+// Get Specific Restaurant foods : Rumesh
+router.get('/:id/foods', RestaurantController.getRestaurantFood);
+// Get Specific Restaurant Location
+router.get('/:id/location', RestaurantController.getLocation);
+
+
+// Get Specific Restaurant Specific Food: Nisitha added for testings
+router.get('/:id/foods/:fid', RestaurantController.getRestaurantSingleFood);
+
+// Create a Restaurant
+router.post('/', verifyToken, isAdmin, RestaurantController.createRestaurant);
+// Add Food to specific Restaurant
+router.post('/:id/foods', verifyToken, isAdmin, RestaurantController.addFoods);
+
+// Update a Restaurant
+router.put('/:id', verifyToken, RestaurantController.updateRestaurant);
+// Update a specific Food Item in a restaurant
+router.put('/:id/foods/:fid', verifyToken, RestaurantController.updateSingleFood);
+// Update location of a restaurant
+router.put('/:id/location', verifyToken, isAdmin, RestaurantController.updateLocation);
+
+// Delete a whole restaurant
+router.delete('/:id', verifyToken, isAdmin, RestaurantController.deleteRestaurant);
+// Delete Specific Food Item from a restaurant
+router.delete('/:id/foods/:fid', verifyToken, isAdmin, RestaurantController.deleteFood);
 
 
 module.exports = router;

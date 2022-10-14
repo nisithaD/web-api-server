@@ -1,7 +1,6 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1231.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
@@ -22,9 +22,22 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.9.1",
     "mongoose": "^6.6.1",
+    "mongoose-delete": "^0.5.4",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
-    "query-string": "^7.1.1"
-  }
+    "query-string": "^7.1.1",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0",
+    "winston": "^3.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nisithaD/web-api-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nisithaD/web-api-server/issues"
+  },
+  "homepage": "https://github.com/nisithaD/web-api-server#readme",
+  "description": ""
 }
